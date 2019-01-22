@@ -853,7 +853,6 @@ namespace UniversityClasses
         }
         public void EndingSemester()
         {
-
             RowNode<Student> pstd = Universal.instance.firstStd;
             Node<Student> std = pstd;
             while (pstd != null)
@@ -866,9 +865,9 @@ namespace UniversityClasses
 
                         for (int i = 0; i < std.info.choosenLessons.Count; i++)
                         {
-                            if (std.info.choosenLessons[i].info.grade > 10)
+                            if (std.info.choosenLessons[i].grade > 10)
                             {
-                                std.info.passedLessons = std.info.passedLessons == null ? new List<Node<Course>>() : std.info.passedLessons;
+                                std.info.passedLessons = std.info.passedLessons == null ? new List<StudentCourse>() : std.info.passedLessons;
                                 std.info.passedLessons.Add(std.info.choosenLessons[i]);
                             }
                         }

@@ -79,7 +79,7 @@ namespace UniversityClasses
             int i;
             for (i = 0; i < std.info.choosenLessons.Count; i++)
             {
-                if (std.info.choosenLessons[i].info.code == code)
+                if (std.info.choosenLessons[i].course.code == code)
                 {
                     found = true;
                     break;
@@ -87,7 +87,7 @@ namespace UniversityClasses
             }
             if (found)
             {
-                std.info.choosenLessons[i].info.grade = grade;
+                std.info.choosenLessons[i].grade = grade;
                 return true;
             }
             return false;

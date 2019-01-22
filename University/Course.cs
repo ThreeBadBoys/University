@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UniversityClasses
 {
@@ -28,15 +27,10 @@ namespace UniversityClasses
         {
             get; set;
         }
-        public double grade
-        {
-            get; set;
-        }
         public List<Node<Student>> students
         {
             get; set;
         }
-
         public Course(string name, int code, int val, string time, string examTime, Master master)
         {
             this.name = name;

@@ -30,13 +30,13 @@
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grade = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.stdid = new System.Windows.Forms.TextBox();
             this.btn_insert_stds = new System.Windows.Forms.Button();
             this.course_title = new System.Windows.Forms.Label();
             this.btn_back = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.grade = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -51,7 +51,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(409, 508);
+            this.dataGridView1.Size = new System.Drawing.Size(485, 508);
             this.dataGridView1.TabIndex = 0;
             // 
             // groupBox1
@@ -62,7 +62,7 @@
             this.groupBox1.Controls.Add(this.stdid);
             this.groupBox1.Controls.Add(this.btn_insert_stds);
             this.groupBox1.Font = new System.Drawing.Font("B Nazanin", 11F, System.Drawing.FontStyle.Bold);
-            this.groupBox1.Location = new System.Drawing.Point(419, 82);
+            this.groupBox1.Location = new System.Drawing.Point(489, 50);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -71,6 +71,24 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "درج نمره";
+            // 
+            // grade
+            // 
+            this.grade.Location = new System.Drawing.Point(114, 74);
+            this.grade.Margin = new System.Windows.Forms.Padding(2);
+            this.grade.Name = "grade";
+            this.grade.Size = new System.Drawing.Size(113, 31);
+            this.grade.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(231, 74);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 24);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "نمره:";
             // 
             // label1
             // 
@@ -105,7 +123,7 @@
             // 
             this.course_title.AutoSize = true;
             this.course_title.Font = new System.Drawing.Font("B Nazanin", 11F, System.Drawing.FontStyle.Bold);
-            this.course_title.Location = new System.Drawing.Point(633, 7);
+            this.course_title.Location = new System.Drawing.Point(704, 9);
             this.course_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.course_title.Name = "course_title";
             this.course_title.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -116,7 +134,7 @@
             // btn_back
             // 
             this.btn_back.Font = new System.Drawing.Font("B Nazanin", 7.8F, System.Drawing.FontStyle.Bold);
-            this.btn_back.Location = new System.Drawing.Point(607, 470);
+            this.btn_back.Location = new System.Drawing.Point(695, 469);
             this.btn_back.Margin = new System.Windows.Forms.Padding(2);
             this.btn_back.Name = "btn_back";
             this.btn_back.Size = new System.Drawing.Size(65, 28);
@@ -124,30 +142,12 @@
             this.btn_back.Text = "بازگشت";
             this.btn_back.UseVisualStyleBackColor = true;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(231, 74);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 24);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "نمره:";
-            // 
-            // grade
-            // 
-            this.grade.Location = new System.Drawing.Point(114, 74);
-            this.grade.Margin = new System.Windows.Forms.Padding(2);
-            this.grade.Name = "grade";
-            this.grade.Size = new System.Drawing.Size(113, 31);
-            this.grade.TabIndex = 4;
-            // 
             // InsertingGradePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(699, 508);
+            this.ClientSize = new System.Drawing.Size(775, 508);
             this.Controls.Add(this.btn_back);
             this.Controls.Add(this.course_title);
             this.Controls.Add(this.groupBox1);

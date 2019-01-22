@@ -1,2 +1,2 @@
 # University
-This project is for our ds project
+This project is for our ds course

@@ -7,7 +7,7 @@ namespace University
 {
     public partial class Grades : Form
     {
-        List<Node<Course>> lessons;
+        List<StudentCourse> lessons;
         string id;
         public Grades(string id)
         {
@@ -40,18 +40,18 @@ namespace University
             dataGridView1.Columns[4].Name = "وضعیت";
             if(lessons == null)
             {
-                lessons = new List<Node<Course>>();
+                lessons = new List<StudentCourse>();
             }
             for(int i = 0; i < lessons.Count; i++)
             {
-                if(lessons[i].info.grade > 0)
+                if(lessons[i].grade > 0)
                 {
                     ArrayList row = new ArrayList();
                     row.Add((i + 1).ToString());
-                    row.Add(lessons[i].info.name.ToString());
-                    row.Add(lessons[i].info.master.firstName.ToString() + " "+ lessons[i].info.master.lastName.ToString()  );
-                    row.Add(lessons[i].info.grade.ToString());
-                    row.Add(lessons[i].info.grade>=10? "قبول" : "مردود");
+                    row.Add(lessons[i].course.name.ToString());
+                    row.Add(lessons[i].course.master.firstName.ToString() + " "+ lessons[i].course.master.lastName.ToString()  );
+                    row.Add(lessons[i].grade.ToString());
+                    row.Add(lessons[i].grade>=10? "قبول" : "مردود");
                     dataGridView1.Rows.Add(row.ToArray());
                 }
                

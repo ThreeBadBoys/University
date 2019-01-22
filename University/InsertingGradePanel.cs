@@ -45,11 +45,12 @@ namespace University
         }
         public void update()
         {
-            dataGridView1.ColumnCount = 4;
+            dataGridView1.ColumnCount = 5;
             dataGridView1.Columns[0].Name = "ردیف";
             dataGridView1.Columns[1].Name = "نام و نام خانوادگی دانشجو";
-            dataGridView1.Columns[2].Name = "نمره";
-            dataGridView1.Columns[3].Name = "وضعیت";
+            dataGridView1.Columns[2].Name = "شماره دانشجویی دانشجو";
+            dataGridView1.Columns[3].Name = "نمره";
+            dataGridView1.Columns[4].Name = "وضعیت";
            
             if (students == null)
             {
@@ -58,10 +59,19 @@ namespace University
             for (int i = 0; i < students.Count; i++)
             {
                 ArrayList row = new ArrayList();
+                double grade = -1;
+                for(int j = 0; j < students[i].info.choosenLessons.Count; j++)
+                {
+                    if (students[i].info.choosenLessons[j].course.code == code)
+                    {
+                        grade = students[i].info.choosenLessons[j].grade;
+                    }
+                }
                 row.Add((i+1).ToString());
-                row.Add(students[i].info.firstName.ToString()+ students[i].info.lastName.ToString());
-                row.Add(students[i].info.grade.ToString());
-                row.Add(students[i].info.grade==0?"نمره ثبت نشده":students[i].info.grade<10?"مردود":"گذرانده");
+                row.Add(students[i].info.firstName +" "+ students[i].info.lastName);
+                row.Add(students[i].info.id+"");
+                row.Add(grade.ToString());
+                row.Add(grade==-1?"نمره ثبت نشده":grade<10?"مردود":"گذرانده");
                 dataGridView1.Rows.Add(row.ToArray());
             }
         }
@@ -73,7 +83,6 @@ namespace University
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(file, Universal.instance);
                 file.Close();
-                this.Hide();
             }
         }
     }

@@ -52,6 +52,7 @@
     <Compile Include="AddCoursePanel.Designer.cs">
       <DependentUpon>AddCoursePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="StudentCourse.cs" />
     <Compile Include="InsertingGradePanel.cs">
       <SubType>Form</SubType>
     </Compile>

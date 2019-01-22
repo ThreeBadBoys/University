@@ -25,11 +25,11 @@ namespace UniversityClasses
         public double grade;
         public bool isAbleUnitChoice = false;
         public bool isAbleUnitEdit = false;
-        public List<Node<Course>> choosenLessons
+        public List<StudentCourse> choosenLessons
         {
             get; set;
         }
-        public List<Node<Course>> passedLessons
+        public List<StudentCourse> passedLessons
         {
             get; set;
         }
@@ -86,7 +86,7 @@ namespace UniversityClasses
                 {
                     for (int i = 0; i < choosenLessons.Count; i++)
                     {
-                        if (code == this.choosenLessons[i].info.code)
+                        if (code == this.choosenLessons[i].course.code)
                         {
                             return false;
                         }
@@ -97,8 +97,9 @@ namespace UniversityClasses
                     if (plsn.info.code == code)
                     {
                         plsn.info.students.Add(Manager.SearchStudent(this.id.ToString()));
-                        choosenLessons = choosenLessons == null ? new List<Node<Course>>() : choosenLessons;
-                        this.choosenLessons.Add(plsn);
+                        choosenLessons = choosenLessons == null ? new List<StudentCourse>() : choosenLessons;
+                        StudentCourse lsn = new StudentCourse(plsn.info);
+                        this.choosenLessons.Add(lsn);
                         return true;
                     }
                     plsn = plsn.next;
@@ -112,20 +113,22 @@ namespace UniversityClasses
         public bool removeLesson(int code)
         {
             Node<Course> plsn = Universal.instance.firstCrs;
+            StudentCourse lsn = null;
             bool crsFound = false;
             while (plsn != null)
             {
                 if (plsn.info.code == code)
                 {
                     crsFound = true;
+                    lsn = new StudentCourse(plsn.info);
                     break;
                 }
                 plsn = plsn.next;
             }
-            if ((isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit) && crsFound && choosenLessons.Contains(plsn))
+            if ((isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit) && crsFound && choosenLessons.Contains(lsn))
             {
                 plsn.info.students.Remove(Manager.SearchStudent(this.id.ToString()));
-                choosenLessons.Remove(plsn);
+                choosenLessons.Remove(lsn);
                 return true;
             }
             else return false;

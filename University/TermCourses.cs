@@ -13,7 +13,7 @@ namespace University
 {
     public partial class TermCourses : Form
     {
-        List<Node<Course>> lessons;
+        List<StudentCourse> lessons;
         string id;
         public TermCourses(string id)
         {
@@ -40,7 +40,7 @@ namespace University
 
             if (lessons == null)
             {
-                lessons = new List<Node<Course>>();
+                lessons = new List<StudentCourse>();
             }
             dataGridView1.ColumnCount = 4;
             dataGridView1.Columns[0].Name = "ردیف";
@@ -50,15 +50,15 @@ namespace University
 
             if (lessons == null)
             {
-                lessons = new List<Node<Course>>();
+                lessons = new List<StudentCourse>();
             }
             for (int i = 0; i < lessons.Count; i++)
             {
                 ArrayList row = new ArrayList();
                 row.Add((i + 1).ToString());
-                row.Add(lessons[i].info.code.ToString());
-                row.Add(lessons[i].info.name.ToString());
-                row.Add(lessons[i].info.examTime.ToString());
+                row.Add(lessons[i].course.code.ToString());
+                row.Add(lessons[i].course.name.ToString());
+                row.Add(lessons[i].course.examTime.ToString());
 
                 dataGridView1.Rows.Add(row.ToArray());
             }

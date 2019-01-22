@@ -13,7 +13,7 @@ namespace University
 {
     public partial class PassedCoursesListPanel : Form
     {
-        List<Node<Course>> lessons;
+        List<StudentCourse> lessons;
         string id;
         public PassedCoursesListPanel(string id)
         {
@@ -35,7 +35,7 @@ namespace University
         {
             if(lessons == null)
             {
-                lessons = new List<Node<Course>>();
+                lessons = new List<StudentCourse>();
             }
             dataGridView2.ColumnCount = 4;
             dataGridView2.Columns[0].Name = "ردیف";
@@ -48,12 +48,12 @@ namespace University
             {
                 ArrayList row = new ArrayList();
                 row.Add((i + 1).ToString());
-                row.Add(lessons[i].info.name.ToString());
-                row.Add(lessons[i].info.grade.ToString());
-                row.Add(lessons[i].info.master.firstName+" "+ lessons[i].info.master.lastName);
+                row.Add(lessons[i].course.name.ToString());
+                row.Add(lessons[i].grade.ToString());
+                row.Add(lessons[i].course.master.firstName+" "+ lessons[i].course.master.lastName);
                 dataGridView2.Rows.Add(row.ToArray());
-                sum += lessons[i].info.grade* lessons[i].info.val;
-                unitscount += lessons[i].info.val;
+                sum += lessons[i].grade* lessons[i].course.val;
+                unitscount += lessons[i].course.val;
             }
             label2.Text = "معدل: "+(sum/unitscount);
         }
