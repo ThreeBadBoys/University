@@ -47,7 +47,6 @@ namespace UniversityClasses
             return height;
         }
 
-
         /**
          * Returns the value associated with the given key.
          *
