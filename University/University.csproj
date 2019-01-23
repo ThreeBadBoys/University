@@ -52,6 +52,9 @@
     <Compile Include="AddCoursePanel.Designer.cs">
       <DependentUpon>AddCoursePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="BTree.cs" />
+    <Compile Include="Entry.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="StudentCourse.cs" />
     <Compile Include="InsertingGradePanel.cs">
       <SubType>Form</SubType>
@@ -128,7 +131,6 @@
     <Compile Include="MasterClasses.Designer.cs">
       <DependentUpon>MasterClasses.cs</DependentUpon>
     </Compile>
-    <Compile Include="Node.cs" />
     <Compile Include="PassedCoursesListPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,7 +163,6 @@
     <Compile Include="RemoveStudentPanel.Designer.cs">
       <DependentUpon>RemoveStudentPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="RowNode.cs" />
     <Compile Include="SignUpManagerPanel.cs">
       <SubType>Form</SubType>
     </Compile>

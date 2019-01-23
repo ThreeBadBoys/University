@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace UniversityClasses
 {
-    [System.Serializable]
-    class Node<T>
+    // helper B-tree node data type
+    public class Node
     {
+        public int m;                                   // number of children
+        public Entry[] children = new Entry[BTree.M];   // the array of children
 
-        public T info;
-        public Node<T> next = null;
+        // create a node with k children
+        public Node(int k)
+        {
+            m = k;
+        }
     }
 }

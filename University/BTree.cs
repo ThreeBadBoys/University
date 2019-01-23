@@ -5,38 +5,12 @@ namespace UniversityClasses
     [Serializable]
     class BTree
     {
-        private static int M = 4;
+        public static int M = 4;
 
         private Node root;       // root of the B-tree
         private int height;      // height of the B-tree
         private int n;           // number of key-value pairs in the B-tree
-                                 // helper B-tree node data type
-        public class Node
-        {
-            public int m;                             // number of children
-            public Entry[] children = new Entry[M];   // the array of children
 
-            // create a node with k children
-            public Node(int k)
-            {
-                m = k;
-            }
-        }
-
-        // internal nodes: only use key and next
-        // external nodes: only use key and value
-        public class Entry
-        {
-            public string key;
-            public string address;
-            public Node next;     // helper field to iterate over array entries
-            public Entry(string key, string address, Node next)
-            {
-                this.key = key;
-                this.address = address;
-                this.next = next;
-            }
-        }
         /**
          * Initializes an empty B-tree.
          */
