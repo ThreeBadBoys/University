@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using UniversityClasses;
@@ -33,21 +35,46 @@ namespace UniversityClasses
             this.firstName = firstName;
             this.lastName = lastName;
             this.password = password;
-            Node<Manager> lastMngRow = Universal.instance.lastMng;
-            Node<Manager> lastMng = lastMngRow;
-            while (lastMng.next != null)
+            ulong lastManagerID;
+
+            if (Universal.instance.managerTree != null)
             {
-                lastMng = lastMng.next;
+                string lastManagerAddress = Universal.instance.managerTree.getLast();
+                if (lastManagerAddress != null)
+                {
+                    try
+                    {
+                        FileStream file = File.Open(lastManagerAddress, FileMode.Open);
+                        lastManagerID = UInt64.Parse(lastManagerAddress.Substring(4)) + 1;
+                    }
+                    catch
+                    {
+                        lastManagerID = UInt64.Parse(lastManagerAddress.Substring(4));
+                    }
+                }
+                else
+                {
+                    lastManagerID = 9700000000;
+                }
             }
-            id = lastMng.info.id + 1;
+            else
+            {
+                lastManagerID = 9700000000;
+            }
+
+            id = lastManagerID;
+
+            FileStream manager = File.Create("mng\\" + lastManagerID);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(manager, this);
+            manager.Close();
         }
         public Manager()
         {
-            Console.WriteLine("hello");
             firstName = "admin";
             lastName = "admin";
             password = "1234";
-            id = 96000000000;
+            id = 970000000;
         }
         //-----------------------------------------
         //functions
@@ -78,37 +105,22 @@ namespace UniversityClasses
         {
             if (isValidName(firstName) && isValidName(lastName))
             {
-
-                Student newStudent = new Student(firstName.Trim(), lastName.Trim(), major);
-                //Now Here we have to check the Nodes
-                if (Universal.instance.firstStd == null)
+                Student student = new Student(firstName.Trim(), lastName.Trim(), major);
+                //Now Here we have to check the Tree
+                if (Universal.instance.studentTree == null)
                 {
-                    RowNode<Student> newRowNode = new RowNode<Student>();
-                    newRowNode.info = newStudent;
-                    Universal.instance.firstStd = Universal.instance.lastStd = newRowNode;
+                    BTree newStudent = new BTree();
+                    newStudent.put(student.id + "", "std\\" + student.id);
+                    Universal.instance.studentTree = newStudent;
                 }
                 else
                 {
-                    Node<Student> lastStdRow = Universal.instance.lastStd;
-                    Node<Student> lastStd = lastStdRow;
-                    while (lastStd.next != null)
-                    {
-                        lastStd = lastStd.next;
-                    }
-                    if (lastStd.info.id % 10 == 9)
-                    {
-                        RowNode<Student> newRowNode = new RowNode<Student>();
-                        newRowNode.info = newStudent;
-                        Universal.instance.lastStd.nextRow = newRowNode;
-                        Universal.instance.lastStd = newRowNode;
-                    }
-                    else
-                    {
-                        Node<Student> newNode = new Node<Student>();
-                        newNode.info = newStudent;
-                        lastStd.next = newNode;
-                    }
+                    Universal.instance.studentTree.put(student.id + "", "std\\" + student.id);
                 }
+                FileStream file = File.Create("std\\" + student.id);
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(file, student);
+                file.Close();
                 return true;
             }
             else
@@ -117,40 +129,26 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public bool SignUpMaster(string firstName, string lastName, List<Node<Course>> lessons)
+        public bool SignUpMaster(string firstName, string lastName, List<Course> lessons)
         {
             if (isValidName(firstName) && isValidName(lastName))
             {
-                Master newMaster = new Master(firstName, lastName, lessons);
-                //Now Here we have to check the Nodes
-                if (Universal.instance.firstMst == null)
+                Master master = new Master(firstName, lastName, lessons);
+                //Now Here we have to check the Tree
+                if (Universal.instance.masterTree == null)
                 {
-                    RowNode<Master> newRowNode = new RowNode<Master>();
-                    newRowNode.info = newMaster;
-                    Universal.instance.firstMst = Universal.instance.lastMst = newRowNode;
+                    BTree newMaster = new BTree();
+                    newMaster.put(master.id + "", "mst\\" + master.id);
+                    Universal.instance.studentTree = newMaster;
                 }
                 else
                 {
-                    Node<Master> lastMstRow = Universal.instance.lastMst;
-                    Node<Master> lastMst = lastMstRow;
-                    while (lastMst.next != null)
-                    {
-                        lastMst = lastMst.next;
-                    }
-                    if (lastMst.info.id % 10 == 9)
-                    {
-                        RowNode<Master> newRowNode = new RowNode<Master>();
-                        newRowNode.info = newMaster;
-                        Universal.instance.lastMst.nextRow = newRowNode;
-                        Universal.instance.lastMst = newRowNode;
-                    }
-                    else
-                    {
-                        Node<Master> newNode = new Node<Master>();
-                        newNode.info = newMaster;
-                        lastMst.next = newNode;
-                    }
+                    Universal.instance.studentTree.put(master.id + "", "mst\\" + master.id);
                 }
+                FileStream file = File.Create("mst\\" + master.id);
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(file, master);
+                file.Close();
                 return true;
             }
             else
@@ -163,29 +161,23 @@ namespace UniversityClasses
         {
             if (isValidName(firstName) && isValidName(lastName))
             {
-                Manager newManager = new Manager(firstName.Trim(), lastName.Trim(), password);
-                //Now Here we have to check the Nodes
-                Node<Manager> lastMngRow = Universal.instance.lastMng;
-                Node<Manager> lastMng = lastMngRow;
-                while (lastMng.next != null)
+                Manager manager = new Manager(firstName.Trim(), lastName.Trim(), password);
+                //Now Here we have to check the Tree
+                if (Universal.instance.managerTree == null)
                 {
-                    lastMng = lastMng.next;
-                }
-                if (lastMng.info.id % 10 == 9)
-                {
-                    RowNode<Manager> newRowNode = new RowNode<Manager>();
-                    newRowNode.info = newManager;
-                    Universal.instance.lastMng.nextRow = newRowNode;
-                    Universal.instance.lastMng = newRowNode;
+                    BTree newMaster = new BTree();
+                    newMaster.put(manager.id + "", "mng\\" + manager.id);
+                    Universal.instance.studentTree = newMaster;
                 }
                 else
                 {
-                    Node<Manager> newNode = new Node<Manager>();
-                    newNode.info = newManager;
-                    lastMng.next = newNode;
+                    Universal.instance.studentTree.put(manager.id + "", "mng\\" + manager.id);
                 }
+                FileStream file = File.Create("mng\\" + manager.id);
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(file, manager);
+                file.Close();
                 return true;
-
             }
             else
             {
@@ -197,24 +189,27 @@ namespace UniversityClasses
         {
             if (isValidName(name) && isNumber(code) && isNumber(mstId) && (SearchMaster(mstId) != null))
             {
-                Course newCourse = new Course(name.Trim(), Convert.ToInt32(code.Trim()), val, time, examTime, SearchMaster(mstId).info);
-                Node<Course> newNode = new Node<Course>();
-                //Now Here we have to check the Nodes
-                if (Universal.instance.firstCrs == null)
+                //We have to check if master exists
+                Master mst = SearchMaster(mstId);
+                if (mst != null)
                 {
-                    newNode.info = newCourse;
-                    Universal.instance.firstCrs = Universal.instance.lastCrs = newNode;
-                }
-                else
-                {
-                    newNode.info = newCourse;
-                    Universal.instance.lastCrs.next = newNode;
-                    Universal.instance.lastCrs = newNode;
-                }
-                Master mst = SearchMaster(mstId).info;
-                if(mst!=null)
-                {
-                    mst.lessons.Add(newNode);
+                    Course course = new Course(name.Trim(), Convert.ToInt32(code.Trim()), val, time, examTime, SearchMaster(mstId));
+                    //Now Here we have to check the Tree
+                    if (Universal.instance.courseTree == null)
+                    {
+                        BTree newCourse = new BTree();
+                        newCourse.put(course.code + "", "crs\\" + course.code);
+                        Universal.instance.studentTree = newCourse;
+                    }
+                    else
+                    {
+                        Universal.instance.studentTree.put(course.code + "", "crs\\" + course.code);
+                    }
+                    mst.lessons.Add(course);
+                    FileStream file = File.Create("crs\\" + course.code);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(file, course);
+                    file.Close();
                     return true;
                 }
                 return false;
@@ -225,224 +220,21 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public static Node<Student> SearchPrevStudent(string id)
-        {
-            /**
-            Returning the previous Student of that id
-            **/
-            if (isNumber(id))
-            {
-                if (Universal.instance.firstStd.info.id > Convert.ToUInt64(id) || Universal.instance.lastStd.info.id + 9 < Convert.ToUInt64(id))
-                {
-                    //Showing Error
-                    return null;
-                }
-                else
-                {
-                    ulong subId = Convert.ToUInt64(id.Substring(0, 10));
-                    Node<Student> pstd = Universal.instance.firstStd;
-                    if (pstd != null)
-                    {
-                        while (subId > pstd.info.id / 10)
-                        {
-                            if (Convert.ToUInt64(id) == ((RowNode<Student>)pstd).nextRow.info.id)
-                            {
-                                return pstd;
-                            }
-                            pstd = ((RowNode<Student>)pstd).nextRow;
-                        }
 
-                        if (subId < pstd.info.id / 10)
-                        {
-                            //Showing Error
-                            return null;
-                        }
-                        else
-                        {
-                            //Horizontal navigation
-                            while (pstd != null)
-                            {
-                                if (Convert.ToUInt64(id) == pstd.next.info.id)
-                                {
-                                    return pstd;
-                                }
-                                pstd = pstd.next;
-                            }
-                            //Showing Error
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        //Showing Error
-                        return null;
-                    }
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public static Node<Master> SearchPrevMaster(string id)
+        public static Student SearchStudent(string id)
         {
-            /**
-            Returning the previous Student of that id
-            **/
-            if (isNumber(id))
+            if (Universal.instance != null && Universal.instance.studentTree != null && isNumber(id) && id.Length == 11)
             {
-                if (Universal.instance.firstMst.info.id > Convert.ToUInt64(id) || Universal.instance.lastMst.info.id + 9 < Convert.ToUInt64(id))
+                string address = Universal.instance.studentTree.get(id.ToString());
+                try
                 {
-                    //Showing Error
+                    FileStream file = File.Open(address, FileMode.Open);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    return (bf.Deserialize(file) as Student);
+                }
+                catch
+                {
                     return null;
-                }
-                else
-                {
-                    ulong subId = Convert.ToUInt64(id.Substring(0, 10));
-                    Node<Master> pstd = Universal.instance.firstMst;
-                    if (pstd != null)
-                    {
-                        while (subId > pstd.info.id / 10)
-                        {
-                            if (Convert.ToUInt64(id) == ((RowNode<Master>)pstd).nextRow.info.id)
-                            {
-                                return pstd;
-                            }
-                            pstd = ((RowNode<Master>)pstd).nextRow;
-                        }
-
-                        if (subId < pstd.info.id / 10)
-                        {
-                            //Showing Error
-                            return null;
-                        }
-                        else
-                        {
-                            //Horizontal navigation
-                            while (pstd != null)
-                            {
-                                if (Convert.ToUInt64(id) == pstd.next.info.id)
-                                {
-                                    return pstd;
-                                }
-                                pstd = pstd.next;
-                            }
-                            //Showing Error
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        //Showing Error
-                        return null;
-                    }
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public static Node<Manager> SearchPrevManager(string id)
-        {
-            /**
-            Returning the previous Student of that id
-            **/
-            if (isNumber(id))
-            {
-                if (Universal.instance.firstMng.info.id > Convert.ToUInt64(id) || Universal.instance.lastMng.info.id + 9 < Convert.ToUInt64(id))
-                {
-                    //Showing Error
-                    return null;
-                }
-                else
-                {
-                    ulong subId = Convert.ToUInt64(id.Substring(0, 10));
-                    Node<Manager> pstd = Universal.instance.firstMng;
-                    if (pstd != null)
-                    {
-                        while (subId > pstd.info.id / 10)
-                        {
-                            if (Convert.ToUInt64(id) == ((RowNode<Manager>)pstd).nextRow.info.id)
-                            {
-                                return pstd;
-                            }
-                            pstd = ((RowNode<Manager>)pstd).nextRow;
-                        }
-
-                        if (subId < pstd.info.id / 10)
-                        {
-                            //Showing Error
-                            return null;
-                        }
-                        else
-                        {
-                            //Horizontal navigation
-                            while (pstd != null)
-                            {
-                                if (Convert.ToUInt64(id) == pstd.next.info.id)
-                                {
-                                    return pstd;
-                                }
-                                pstd = pstd.next;
-                            }
-                            //Showing Error
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        //Showing Error
-                        return null;
-                    }
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public static Node<Student> SearchStudent(string id)
-        {
-            if (Universal.instance != null && Universal.instance.firstStd != null && isNumber(id) && id.Length == 11)
-            {
-                if (Universal.instance.firstStd.info.id > Convert.ToUInt64(id) || Universal.instance.lastStd.info.id + 9 < Convert.ToUInt64(id))
-                {
-                    //Showing Error
-                    return null;
-                }
-                else {
-                    ulong subId = Convert.ToUInt64((id.Substring(0, 10)));
-                    RowNode<Student> pstd = Universal.instance.firstStd;
-                    if (pstd != null)
-                    {
-                        while (subId > pstd.info.id / 10)
-                        {
-                            pstd = pstd.nextRow;
-                        }
-                        if (subId < pstd.info.id / 10)
-                        {
-                            //Showing Error
-                            return null;
-                        }
-                        else
-                        {
-                            Node<Student> std = pstd;
-                            while (std != null)
-                            {
-                                if (std.info.id == Convert.ToUInt64((id)))
-                                {
-                                    return std;
-                                }
-                                std = std.next;
-                            }
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        return null;
-                    }
                 }
             }
             else
@@ -451,48 +243,20 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public static Node<Master> SearchMaster(string id)
+        public static Master SearchMaster(string id)
         {
-            if (Universal.instance != null && Universal.instance.firstMst != null && isNumber(id) && id.Length == 11)
+            if (Universal.instance != null && Universal.instance.masterTree != null && isNumber(id) && id.Length == 10)
             {
-                if (Universal.instance.firstMst.info.id > Convert.ToUInt64(id) || Universal.instance.lastMst.info.id + 9 < Convert.ToUInt64(id))
+                string address = Universal.instance.masterTree.get(id.ToString());
+                try
                 {
-                    //Showing Error
-                    return null;
+                    FileStream file = File.Open(address, FileMode.Open);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    return (bf.Deserialize(file) as Master);
                 }
-                else
+                catch
                 {
-                    ulong subId = Convert.ToUInt64((id.Substring(0, 10)));
-                    RowNode<Master> pstd = Universal.instance.firstMst;
-                    if (pstd != null)
-                    {
-                        while (subId > pstd.info.id / 10)
-                        {
-                            pstd = pstd.nextRow;
-                        }
-                        if (subId < pstd.info.id / 10)
-                        {
-                            //Showing Error
-                            return null;
-                        }
-                        else
-                        {
-                            Node<Master> std = pstd;
-                            while (std != null)
-                            {
-                                if (std.info.id == Convert.ToUInt64((id)))
-                                {
-                                    return std;
-                                }
-                                std = std.next;
-                            }
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return null;
                 }
             }
             else
@@ -501,48 +265,20 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public static Node<Manager> SearchManager(string id)
+        public static Manager SearchManager(string id)
         {
-            if (Universal.instance != null && Universal.instance.firstMng != null && isNumber(id) && id.Length == 11)
+            if (Universal.instance != null && Universal.instance.managerTree != null && isNumber(id) && id.Length == 9)
             {
-                if (Universal.instance.firstMng.info.id > Convert.ToUInt64(id) || Universal.instance.lastMng.info.id + 9 < Convert.ToUInt64(id))
+                string address = Universal.instance.managerTree.get(id.ToString());
+                try
                 {
-                    //Showing Error
-                    return null;
+                    FileStream file = File.Open(address, FileMode.Open);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    return (bf.Deserialize(file) as Manager);
                 }
-                else
+                catch
                 {
-                    ulong subId = Convert.ToUInt64((id.Substring(0, 10)));
-                    RowNode<Manager> pstd = Universal.instance.firstMng;
-                    if (pstd != null)
-                    {
-                        while (subId > pstd.info.id / 10)
-                        {
-                            pstd = pstd.nextRow;
-                        }
-                        if (subId < pstd.info.id / 10)
-                        {
-                            //Showing Error
-                            return null;
-                        }
-                        else
-                        {
-                            Node<Manager> std = pstd;
-                            while (std != null)
-                            {
-                                if (std.info.id == Convert.ToUInt64((id)))
-                                {
-                                    return std;
-                                }
-                                std = std.next;
-                            }
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return null;
                 }
             }
             else
@@ -551,94 +287,29 @@ namespace UniversityClasses
             }
             //End of Method
         }
+
+        /**
+         * This function removes student key in BTree and removes related file
+         */
         public bool RemoveStudentFully(string id)
         {
-            if (Universal.instance.firstStd != null && isNumber(id))// Checking whether we have student or not
+            if (Universal.instance != null && Universal.instance.studentTree != null && isNumber(id) && id.Length == 11)// Checking whether we have student or not
             {
-                if (Universal.instance.firstStd.next != null|| Universal.instance.firstStd.nextRow != null)//Checking if we have more than one student 
-                {
-                    if (Convert.ToUInt64(id) == Universal.instance.firstStd.info.id)  //Means that we wanna delete the first Student
-                    {
-                        RowNode<Student> newfirstRowNode = new RowNode<Student>();
-                        newfirstRowNode.info = Universal.instance.firstStd.next.info;
-                        newfirstRowNode.next = Universal.instance.firstStd.next.next;
-                        newfirstRowNode.nextRow = Universal.instance.firstStd.nextRow;
-                        Universal.instance.firstStd = newfirstRowNode;
-                        return true;
-                    }
-                    else if (Convert.ToUInt64(id) == Universal.instance.lastStd.info.id)//Means that we wanna delete the last Student
-                    {
-                        RowNode<Student> newlastRowNode = new RowNode<Student>();
-                        if (Universal.instance.lastStd.next != null) // Checking if we have convertable node to RowNode
-                        {
-                            newlastRowNode.info = Universal.instance.lastStd.next.info;
-                            newlastRowNode.next = Universal.instance.lastStd.next.next;
-                            Universal.instance.lastStd = newlastRowNode;
-                            return true;
-                        }
-                        else // Here we don't have convertable node to RowNode
-                        {
-                            RowNode<Student> lastStd = Universal.instance.firstStd;
-                            while (lastStd.nextRow != null && lastStd.nextRow.nextRow != null)
-                            {
-                                lastStd = lastStd.nextRow;
-                            }
-                            Universal.instance.lastStd = lastStd;
-                            return true;
-                        }
-                    }
-                    else // Here we want to delete the students in which there are at the Middle Nodes
-                    {
-                        Node<Student> pre;
-                        pre = SearchPrevStudent(id);
-                        if (pre != null) //if the student exists
-                        {
-                            if (pre is RowNode<Student>)//Prev is RowNode
-                            {
-                                RowNode<Student> prev = pre as RowNode<Student>;
-                                if (prev.nextRow.info.id == Convert.ToUInt64(id))//Deleting node is nextRowNode
-                                {
-                                    if (prev.nextRow.next != null)//if the deleting RowNode has nextNode
-                                    {
-                                        prev.nextRow.info = prev.nextRow.next.info;
-                                        prev.nextRow.next = prev.nextRow.next.next;
-                                    }
-                                    else //deleting RowNode doesn't have nextNode
-                                    {
-                                        prev.nextRow = prev.nextRow.nextRow;
-                                    }
-                                }
-                                else // Deleting node is nextNode
-                                {
-                                    prev.next = prev.next.next;
-                                }
-                            }
-                            else //Prev is usual node
-                            {
-                                pre.next = pre.next.next;
-                            }
-                            return true;
-                        }
-                        else // Student doesn't exist
-                        {
-                            return false;
-                        }
-                    }
-
-                }
-                else // We have just one student 
-                {
-                    Universal.instance.firstStd = Universal.instance.lastStd = null;
-                    return true;
-                }
+                string address = Universal.instance.studentTree.get(id.ToString());
+                if (address == null) return false;
+                File.Delete(address);
+                Universal.instance.studentTree.delete(id.ToString());
+                //Student deleted successfully
+                return true;
             }
             else
             {
-                //Showing Error that the insterted id is wrong or threre is no student added
+                //Showing Error that the entered id is wrong or threre is no student added
                 return false;
             }
             //End of Method
         }
+
         public bool RemoveMasterFully(string id)
         {
             if (Universal.instance.firstMst != null && isNumber(id))// Checking whether we have master or not

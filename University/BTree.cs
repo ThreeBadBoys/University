@@ -48,12 +48,38 @@ namespace UniversityClasses
         }
 
         /**
-         * Returns the value associated with the given key.
+         * Returns the file address associated with the biggest key.
+         */
+        public string getLast()
+        {
+            return search(root, height);
+        }
+
+        private string search(Node x, int ht)
+        {
+            Entry[] children = x.children;
+
+            // external node
+            if (ht == 0)
+            {
+                return children[x.m-1].address;
+            }
+
+            // internal node
+            else
+            {
+                return search(children[x.m-1].next, ht - 1);
+            }
+            return null;
+        }
+
+        /**
+         * Returns the file address associated with the given key.
          *
          * @param  key the key
-         * @return the value associated with the given key if the key is in the symbol table
+         * @return the file address associated with the given key if the key is in the symbol table
          *         and {@code null} if the key is not in the symbol table
-         * @throws IllegalArgumentException if {@code key} is {@code null}
+         * @throws ArgumentOutOfRangeException if {@code key} is {@code null}
          */
         public string get(string key)
         {
@@ -86,20 +112,36 @@ namespace UniversityClasses
             return null;
         }
 
-
         /**
-         * Inserts the key-value pair into the symbol table, overwriting the old value
-         * with the new value if the key is already in the symbol table.
-         * If the value is {@code null}, this effectively deletes the key from the symbol table.
+         * Inserts the key-address pair into the symbol table, overwriting the old address
+         * with the new address if the key is already in the symbol table.
          *
-         * @param  key the key
-         * @param  val the value
-         * @throws IllegalArgumentException if {@code key} is {@code null}
+         * @param  key the string
+         * @param  address the string
+         * @throws ArgumentOutOfRangeException if {@code key} is {@code null}
          */
         public void put(string key, string address)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
             Node u = insert(root, key, address, height);
+            n++;
+            if (u == null) return;
+
+            // need to split root
+            Node t = new Node(2);
+            t.children[0] = new Entry(root.children[0].key, null, root);
+            t.children[1] = new Entry(u.children[0].key, null, u);
+            root = t;
+            height++;
+        }
+
+        /**
+         * this effectively deletes the key from the symbol table.
+         */
+        public void delete(string key)
+        {
+            if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
+            Node u = insert(root, key, null, height);
             n++;
             if (u == null) return;
 
@@ -192,7 +234,6 @@ namespace UniversityClasses
             return s;
         }
 
-
         // comparison functions - make Comparable instead of Key to avoid casts
         private bool less(string k1, string k2)
         {
@@ -203,6 +244,5 @@ namespace UniversityClasses
         {
             return k1.Equals(k2);
         }
-
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace UniversityClasses
 {
     // internal nodes: only use key and next
-    // external nodes: only use key and value
+    // external nodes: only use key and address
     public class Entry
     {
         public string key;

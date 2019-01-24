@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UniversityClasses;
 namespace University
@@ -15,7 +10,7 @@ namespace University
     {
         string id;
         Master master;
-        List<Node<Course>> lessons;
+        List<Course> lessons;
         public MasterClasses(string id)
         {
             InitializeComponent();
@@ -43,16 +38,16 @@ namespace University
 
             if (lessons == null)
             {
-                lessons = new List<Node<Course>>();
+                lessons = new List<Course>();
             }
             for (int i = 0; i < lessons.Count; i++)
             {
                 ArrayList row = new ArrayList();
                 row.Add((i+1).ToString());
-                row.Add(lessons[i].info.code.ToString());
-                row.Add(lessons[i].info.name.ToString());
-                row.Add(lessons[i].info.examTime.ToString());
-                row.Add(lessons[i].info.students.Count.ToString());
+                row.Add(lessons[i].code.ToString());
+                row.Add(lessons[i].name.ToString());
+                row.Add(lessons[i].examTime.ToString());
+                row.Add(lessons[i].students.Count.ToString());
                 dataGridView1.Rows.Add(row.ToArray());
             }
         }
@@ -62,10 +57,10 @@ namespace University
             bool found=false;
             for (int i = 0; i < lessons.Count; i++)
             {
-                if (lessons[i].info.code == Convert.ToInt32(textBox1.Text))
+                if (lessons[i].code == Convert.ToInt32(textBox1.Text))
                 {
                     found = true;
-                    code = lessons[i].info.code;
+                    code = lessons[i].code;
                     break;
                 }
             }
