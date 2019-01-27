@@ -51,7 +51,7 @@ namespace University
                     Manager manager = new Manager();
                     newManager.put(manager.id + "", "mng\\" + manager.id);
                     instance.managerTree = newManager;
-                    FileStream file = File.Create("Uni");
+                    FileStream file = File.Create("UniManager");
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(file, instance);
                     FileStream newFile = File.Create("mng\\" + manager.id);
