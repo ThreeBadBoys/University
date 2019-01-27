@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="BTree.cs" />
     <Compile Include="Entry.cs" />
+    <Compile Include="Manager-Universal.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="StudentCourse.cs" />
     <Compile Include="InsertingGradePanel.cs">

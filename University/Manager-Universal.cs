@@ -1,21 +1,23 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UniversityClasses;
 
-namespace UniversityClasses
+namespace University
 {
     [System.Serializable]
-    class Universal 
+    class Manager_Universal
     {
-        public static Universal instance;
-        
-        /**
-         * Initializes main file and BTrees.
-         */
-        static Universal()
+        public static Manager_Universal instance;
+        static Manager_Universal()
         {
             if (instance == null)
             {
-                instance = new Universal();
+                instance = new Manager_Universal();
                 if (File.Exists("UniManager"))
                 {
                     //File exists.
@@ -38,7 +40,7 @@ namespace UniversityClasses
                     else
                     {
                         //File was already created.
-                        instance = bf.Deserialize(file) as Universal;
+                        instance = bf.Deserialize(file) as Manager_Universal;
                         file.Close();
                     }
                 }
@@ -60,13 +62,6 @@ namespace UniversityClasses
                 }
             }
         }
-
-        public BTree studentTree;       //Tree of students
-        public BTree masterTree;        //Tree of masters
         public BTree managerTree;       //Tree of managers
-        public BTree courseTree;        //Tree of courses
-
-        public bool isAbleUnitChoice = false;       //UnitChoice ability
-        public bool isAbleUnitEdit = false;         //UnitEdit ability
     }
 }
