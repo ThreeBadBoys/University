@@ -16,9 +16,8 @@ namespace University
 
         public EnterPage()
         {
-            Manager_Universal manager_Universal;
-            Student_Universal student_Universal;
-            Course_Universal  course_Universal;
+            Universal u;
+         
 
             InitializeComponent();
 
