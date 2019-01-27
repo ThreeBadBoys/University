@@ -27,13 +27,13 @@ namespace University
                     {
                         //File is empty.
                         BTree newMaster = new BTree();
-                        Master master = new Manager();
-                        newMaster.put(manager.id + "", "mng\\" + manager.id);
-                        instance.managerTree = newMaster;
+                        Master master = new Master("Ali", "Najafi", new List<Course>());
+                        newMaster.put(master.id + "", "mst\\" + master.id);
+                        instance.masterTree = newMaster;
                         bf.Serialize(file, instance);
-                        FileStream newFile = File.Create("mng\\" + manager.id);
+                        FileStream newFile = File.Create("mst\\" + master.id);
                         BinaryFormatter newbf = new BinaryFormatter();
-                        bf.Serialize(newFile, manager);
+                        bf.Serialize(newFile, master);
                         newFile.Close();
                         file.Close();
                     }
@@ -47,16 +47,16 @@ namespace University
                 else
                 {
                     //File not exists
-                    BTree newManager = new BTree();
-                    Manager manager = new Manager();
-                    newManager.put(manager.id + "", "mng\\" + manager.id);
-                    instance.managerTree = newManager;
+                    BTree newMater = new BTree();
+                    Master master = new Master("Sajad", "Mogayyad", new List<Course>());
+                    newMater.put(master.id + "", "mst\\" + master.id);
+                    instance.masterTree = newMater;
                     FileStream file = File.Create("UniMaster");
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(file, instance);
-                    FileStream newFile = File.Create("mng\\" + manager.id);
+                    FileStream newFile = File.Create("mst\\" + master.id);
                     BinaryFormatter newbf = new BinaryFormatter();
-                    bf.Serialize(newFile, manager);
+                    bf.Serialize(newFile, master);
                     newFile.Close();
                     file.Close();
                 }

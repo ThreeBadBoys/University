@@ -27,10 +27,10 @@ namespace University
                         //File is empty.
                         BTree newCourse = new BTree();
                         Course cousre = new Course("",0,0,"","0",null);
-                        newCourse.put(cousre.id + "", "mng\\" + cousre.id);
-                        instance.managerTree = newCourse;
+                        newCourse.put(cousre.code + "", "cou\\" + cousre.code);
+                        instance.courseTree = newCourse;
                         bf.Serialize(file, instance);
-                        FileStream newFile = File.Create("mng\\" + cousre.id);
+                        FileStream newFile = File.Create("cou\\" + cousre.code);
                         BinaryFormatter newbf = new BinaryFormatter();
                         bf.Serialize(newFile, cousre);
                         newFile.Close();
@@ -47,15 +47,15 @@ namespace University
                 {
                     //File not exists
                     BTree newManager = new BTree();
-                    Manager manager = new Manager();
-                    newManager.put(manager.id + "", "mng\\" + manager.id);
-                    instance.managerTree = newManager;
+                    Course cousre = new Course("", 0, 0, "", "0", null);
+                    newManager.put(cousre.code + "", "cou\\" + cousre.code);
+                    instance.courseTree = newManager;
                     FileStream file = File.Create("UniCourse");
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(file, instance);
-                    FileStream newFile = File.Create("mng\\" + manager.id);
+                    FileStream newFile = File.Create("cou\\" + cousre.code);
                     BinaryFormatter newbf = new BinaryFormatter();
-                    bf.Serialize(newFile, manager);
+                    bf.Serialize(newFile, cousre);
                     newFile.Close();
                     file.Close();
                 }
