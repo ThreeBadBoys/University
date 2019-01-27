@@ -16,9 +16,15 @@ namespace University
 
         public EnterPage()
         {
-            Universal u;
+            Manager_Universal manager_Universal;
+            Student_Universal student_Universal;
+            Course_Universal  course_Universal;
+
             InitializeComponent();
+
             LogInType.SelectedItem = "دانشجو";
+
+
             Node<Master> mst = Universal.instance.firstMst;
             //Console.WriteLine(mst.info.lessons[0].info.students.Count);
         }
