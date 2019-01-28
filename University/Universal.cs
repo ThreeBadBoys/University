@@ -32,6 +32,7 @@ namespace UniversityClasses
                         FileStream newFile = File.Create("mng\\" + manager.id);
                         BinaryFormatter newbf = new BinaryFormatter();
                         bf.Serialize(newFile, manager);
+                        
                         newFile.Close();
                         file.Close();
                     }

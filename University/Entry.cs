@@ -10,10 +10,10 @@ namespace UniversityClasses
     // external nodes: only use key and address
     public class Entry
     {
-        public string key;
-        public string address;
+        public uint key;
+        public int address;
         public Node next;     // helper field to iterate over array entries
-        public Entry(string key, string address, Node next)
+        public Entry(uint key, int address, Node next)
         {
             this.key = key;
             this.address = address;

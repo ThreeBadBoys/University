@@ -50,12 +50,12 @@ namespace UniversityClasses
         /**
          * Returns the file address associated with the biggest key.
          */
-        public string getLast()
+        public int getLast()
         {
             return search(root, height);
         }
 
-        private string search(Node x, int ht)
+        private int search(Node x, int ht)
         {
             Entry[] children = x.children;
 
@@ -70,7 +70,7 @@ namespace UniversityClasses
             {
                 return search(children[x.m-1].next, ht - 1);
             }
-            return null;
+            return -1;
         }
 
         /**
@@ -81,13 +81,13 @@ namespace UniversityClasses
          *         and {@code null} if the key is not in the symbol table
          * @throws ArgumentOutOfRangeException if {@code key} is {@code null}
          */
-        public string get(string key)
+        public int get(uint key)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument to get() is null");
             return search(root, key, height);
         }
 
-        private string search(Node x, string key, int ht)
+        private int search(Node x, uint key, int ht)
         {
             Entry[] children = x.children;
 
@@ -109,7 +109,7 @@ namespace UniversityClasses
                         return search(children[j].next, key, ht - 1);
                 }
             }
-            return null;
+            return -1;
         }
 
         /**
@@ -120,7 +120,7 @@ namespace UniversityClasses
          * @param  address the string
          * @throws ArgumentOutOfRangeException if {@code key} is {@code null}
          */
-        public void put(string key, string address)
+        public void put(uint key, int address)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
             Node u = insert(root, key, address, height);
@@ -129,8 +129,8 @@ namespace UniversityClasses
 
             // need to split root
             Node t = new Node(2);
-            t.children[0] = new Entry(root.children[0].key, null, root);
-            t.children[1] = new Entry(u.children[0].key, null, u);
+            t.children[0] = new Entry(root.children[0].key, -1, root);
+            t.children[1] = new Entry(u.children[0].key, -1, u);
             root = t;
             height++;
         }
@@ -138,22 +138,22 @@ namespace UniversityClasses
         /**
          * this effectively deletes the key from the symbol table.
          */
-        public void delete(string key)
+        public void delete(uint key)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
-            Node u = insert(root, key, null, height);
+            Node u = insert(root, key, -1, height);
             n++;
             if (u == null) return;
 
             // need to split root
             Node t = new Node(2);
-            t.children[0] = new Entry(root.children[0].key, null, root);
-            t.children[1] = new Entry(u.children[0].key, null, u);
+            t.children[0] = new Entry(root.children[0].key, -1, root);
+            t.children[1] = new Entry(u.children[0].key, -1, u);
             root = t;
             height++;
         }
 
-        private Node insert(Node h, string key, string address, int ht)
+        private Node insert(Node h, uint key, int address, int ht)
         {
             int j;
             Entry t = new Entry(key, address, null);
@@ -235,12 +235,12 @@ namespace UniversityClasses
         }
 
         // comparison functions - make Comparable instead of Key to avoid casts
-        private bool less(string k1, string k2)
+        private bool less(uint k1, uint k2)
         {
             return k1.CompareTo(k2) < 0;
         }
 
-        private bool equal(string k1, string k2)
+        private bool equal(uint k1, uint k2)
         {
             return k1.Equals(k2);
         }
