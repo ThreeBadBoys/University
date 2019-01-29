@@ -8,17 +8,13 @@ namespace University
 {
     public partial class ChooseCourse : Form
     {
-        string id;
-        Node<Student> node;
+        int id;
         Student std;
-        public ChooseCourse(string id)
+ 
+        public ChooseCourse(int id)
         {
             this.id = id;
-            node = Manager.SearchStudent(id);
-            if(node != null)
-            {
-                std = node.info;
-            }
+            std = Manager.SearchStudent(id);
             InitializeComponent();
         }
 

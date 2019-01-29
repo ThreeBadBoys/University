@@ -8,14 +8,14 @@ namespace University
     public partial class Grades : Form
     {
         List<StudentCourse> lessons;
-        string id;
-        public Grades(string id)
+        int id;
+        public Grades(int id)
         {
             this.id = id;
             InitializeComponent();
-            if (Manager.SearchStudent(id) != null)
-            {
-                Student std = Manager.SearchStudent(id).info;
+            Student std = Manager.SearchStudent(id);
+            if (std != null) { 
+
                 std_name.Text = std.firstName + " " + std.lastName;
                 lessons = std.choosenLessons;
             }

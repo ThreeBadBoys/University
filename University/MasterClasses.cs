@@ -8,14 +8,14 @@ namespace University
 {
     public partial class MasterClasses : Form
     {
-        string id;
+        int id;
         Master master;
         List<Course> lessons;
-        public MasterClasses(string id)
+        public MasterClasses(int id)
         {
             InitializeComponent();
             this.id = id;
-            master = Manager.SearchMaster(id).info;
+            master = Manager.SearchMaster(id);
             if (master != null)
             {
                 lessons = master.lessons;

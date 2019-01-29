@@ -228,7 +228,7 @@ namespace UniversityClasses
             return master;
             //End of Method
         }
-        public static Manager SearchManager(string id)
+        public static Manager SearchManager(int id)
         {
             Manager manager = new Manager();
             FileManager.Load(Universal.instance.managerTree, manager, id, fileDirectoryPlusName:);//TODO

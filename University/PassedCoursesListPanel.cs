@@ -14,14 +14,14 @@ namespace University
     public partial class PassedCoursesListPanel : Form
     {
         List<StudentCourse> lessons;
-        string id;
-        public PassedCoursesListPanel(string id)
+        int id;
+        public PassedCoursesListPanel(int id)
         {
             InitializeComponent();
             this.id = id;
-            if (Manager.SearchStudent(id) != null)
+            Student std = Manager.SearchStudent(id);
+            if (std != null)
             {
-                Student std = Manager.SearchStudent(id).info;
                 label1.Text = std.firstName + " " + std.lastName;
                 lessons = std.passedLessons;
             }

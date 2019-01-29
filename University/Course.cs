@@ -27,7 +27,7 @@ namespace UniversityClasses
         {
             get; set;
         }
-        public List<Node<Student>> students
+        public List<Student> students
         {
             get; set;
         }
@@ -39,7 +39,7 @@ namespace UniversityClasses
             this.time = time;
             this.examTime = examTime;
             this.master = master;
-            students = new List<Node<Student>>();
+            students = new List<Student>();
         }
     }
 }

@@ -14,16 +14,16 @@ namespace University
     public partial class TermCourses : Form
     {
         List<StudentCourse> lessons;
-        string id;
-        public TermCourses(string id)
+        int id;
+        public TermCourses(int id)
         {
             InitializeComponent();
             this.id = id;
-            Node<Student> node = Manager.SearchStudent(id);
-            if(node != null)
+            Student std = Manager.SearchStudent(id);
+            if(std != null)
             {
-                label1.Text = node.info.firstName + " " + node.info.lastName;
-                lessons = node.info.choosenLessons;
+                label1.Text = std.firstName + " " + std.lastName;
+                lessons = std.choosenLessons;
             }
 
 

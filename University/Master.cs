@@ -43,40 +43,26 @@ namespace UniversityClasses
             this.firstName = firstName;
             this.lastName = lastName;
             this.lessons = lessons;
-            
-            int lastMasterID;
+         
 
             if (Universal.instance.masterTree != null)
             {
-                string lastMasterAddress = Universal.instance.masterTree.getLast();
-                if(lastMasterAddress != null)
+                Master newStd = new Master();
+                int lastMasterIndex = Universal.instance.masterTree.getLast();
+                FileManager.Load(Universal.instance.masterTree, newStd, lastMasterIndex, fileDirectoryPlusName:);//TODO
+
+                if (lastMasterIndex != -1)
                 {
-                    try
-                    {
-                        FileStream file = File.Open(lastMasterAddress, FileMode.Open);
-                        lastMasterID = Int32.Parse(lastMasterAddress.Substring(4)) + 1;
-                    }
-                    catch
-                    {
-                        lastMasterID = Int32.Parse(lastMasterAddress.Substring(4));
-                    }
+                    this.id = newStd.id + 1;
+                    this.password = String.Format("%d", this.id);
                 }
                 else
                 {
-                    lastMasterID = 9700000000;
+                    this.id = 97000;
+                    this.password = String.Format("%d", this.id);
                 }
             }
-            else
-            {
-                lastMasterID = 9700000000;
-            }
-            id = lastMasterID;
-            password = lastMasterID + "";
-            
-            FileStream master = File.Create("mst\\"+ lastMasterID);
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(master, this);
-            master.Close();
+
         }
         public int EditPassword(string currentPassWord, string newPassword, string newPasswordAgain)
         {
@@ -100,7 +86,7 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public bool insertingGrade(string id, double grade, int code)
+        public bool insertingGrade(int id, double grade, int code)
         {
             Student std = Manager.SearchStudent(id);
             bool found = false;

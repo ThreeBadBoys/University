@@ -8,13 +8,13 @@ namespace University
 {
     public partial class ChangePasswordMaster : Form
     {
-        string id;
+        int id;
         Master master;
-        public ChangePasswordMaster(string id)
+        public ChangePasswordMaster(int id)
         {
             this.id = id;
             InitializeComponent();
-            master = Manager.SearchMaster(id).info;
+            master = Manager.SearchMaster(id);
         }
 
         private void btn_Back2_Click(object sender, EventArgs e)

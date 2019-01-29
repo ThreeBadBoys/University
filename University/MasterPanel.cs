@@ -12,12 +12,12 @@ namespace University
 {
     public partial class MasterPanel : Form
     {
-        string id;
-        public MasterPanel(string id)
+        int id;
+        public MasterPanel(int id)
         {
             this.id = id;
             InitializeComponent();
-            Master mst = Manager.SearchMaster(id).info;
+            Master mst = Manager.SearchMaster(id);
             if(mst != null)
             {
                 teachername.Text = mst.firstName + " " + mst.lastName;

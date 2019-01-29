@@ -16,16 +16,13 @@ namespace University
     public partial class RemoveMasterPanel : Form
     {
         Manager mng;
-        string id;
-        public RemoveMasterPanel(string id)
+        int id;
+        public RemoveMasterPanel(int id)
         {
             this.id = id;
             InitializeComponent();
-            Node<Manager> node = Manager.SearchManager(id);
-            if (node != null)
-            {
-                mng = node.info;
-            }
+            mng = Manager.SearchManager(id);
+          
         }
 
         private void btn_back31_Click(object sender, EventArgs e)
@@ -38,7 +35,7 @@ namespace University
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
-            if (mng.RemoveMasterFully(textBox1.Text)){
+            if (mng.RemoveMasterFully(Int32.Parse(textBox1.Text))){
                 FileStream file = File.Create("Uni");
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(file, Universal.instance);

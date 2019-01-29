@@ -45,7 +45,6 @@ namespace UniversityClasses
             this.firstName = firstName;
             this.lastName = lastName;
             this.major = major;
-             int lastManagerID;
             //Node lastStudentRow = Universal.instance.lastStd;
             //Node lastStudent = lastStudentRow;
 

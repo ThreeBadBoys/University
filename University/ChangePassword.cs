@@ -15,12 +15,12 @@ namespace University
 {
     public partial class ChangePassword : Form
     {
-        string id;
+        int id;
         Manager mng;
-        public ChangePassword(String id)
+        public ChangePassword(int id)
         {
             this.id = id;
-            mng = Manager.SearchManager(id).info;
+            mng = Manager.SearchManager(id);
             InitializeComponent();
         }
 

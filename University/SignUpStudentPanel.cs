@@ -15,12 +15,12 @@ namespace University
 {
     public partial class SignUpStudentPanel : Form
     {
-        String id;
+        int id;
         Manager mng;
-        public SignUpStudentPanel(String id)
+        public SignUpStudentPanel(int id)
         {
             this.id = id;
-            mng = Manager.SearchManager(id).info;
+            mng = Manager.SearchManager(id);
             InitializeComponent();
         }
 

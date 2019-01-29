@@ -7,17 +7,13 @@ namespace University
 {
     public partial class Add_Remove_Course : Form
     {
-        string id;
-        Node<Student> node;
+        int id;
         Student std;
-        public Add_Remove_Course(string id)
+        public Add_Remove_Course(int id)
         {
             this.id = id;
-            node = Manager.SearchStudent(id);
-            if (node != null)
-            {
-                std = node.info;
-            }
+            std = Manager.SearchStudent(id);
+            
             InitializeComponent();
         }
 

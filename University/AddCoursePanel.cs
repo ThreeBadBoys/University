@@ -15,18 +15,18 @@ namespace University
 {
     public partial class AddCoursePanel : Form
     {
-        String id;
+        int id;
         Manager mng;
-        public AddCoursePanel(String id)
+        public AddCoursePanel(int id)
         {
             this.id = id;
-            mng = Manager.SearchManager(id).info;
+            mng = Manager.SearchManager(id);
             InitializeComponent();
         }
 
         private void btn_add_course_Click(object sender, EventArgs e)
         {
-            if(mng.AddCourse(code.Text, name.Text, masterCode.Text, time.Text, examTime.Text, Convert.ToInt32(val.Text)))
+            if(mng.AddCourse(Int32.Parse(code.Text), name.Text, Int32.Parse(masterCode.Text), time.Text, examTime.Text, Convert.ToInt32(val.Text)))
             {
                 FileStream file = File.Create("Uni");
                 BinaryFormatter bf = new BinaryFormatter();

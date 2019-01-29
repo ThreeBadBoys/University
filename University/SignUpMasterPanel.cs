@@ -15,12 +15,12 @@ namespace University
 {
     public partial class SignUpMasterPanel : Form
     {
-        String id;
+        int id;
         Manager mng;
-        public SignUpMasterPanel(String id)
+        public SignUpMasterPanel(int id)
         {
             this.id = id;
-            mng = Manager.SearchManager(id).info;
+            mng = Manager.SearchManager(id);
             InitializeComponent();
         }
 
@@ -33,7 +33,7 @@ namespace University
 
         private void btn_signup_master_Click(object sender, EventArgs e)
         {
-            mng.SignUpMaster(firstname_input.Text, lastname_input.Text, new List<Node<Course>>());
+            mng.SignUpMaster(firstname_input.Text, lastname_input.Text, new List<Course>());
             FileStream file = File.Create("Uni");
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(file, Universal.instance);

@@ -16,16 +16,16 @@ namespace University
     public partial class ManagerPanel : Form
     {
         EnterPage enterPagePanel = new EnterPage();
-        string id;
+        int id;
         Manager mng;
-        public ManagerPanel(string id)
+        public ManagerPanel(int id)
         {
             Console.WriteLine("panel");
             this.id = id;
             InitializeComponent();
-            if (id != "")
+            if (id != 0)
             {
-                mng = Manager.SearchManager(id).info;
+                mng = Manager.SearchManager(id);
                 managername.Text = mng.firstName + " " + mng.lastName;
                 managerid.Text = mng.id.ToString();
             }

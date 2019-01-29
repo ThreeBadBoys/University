@@ -14,17 +14,14 @@ namespace University
 {
     public partial class RemoveManagerPanel : Form
     {
-        string id;
+        int id;
         Manager mng;
-        public RemoveManagerPanel(string id)
+        public RemoveManagerPanel(int id)
         {
             this.id = id;
             InitializeComponent();
-            Node<Manager> node = Manager.SearchManager(id);
-            if(node != null)
-            {
-                mng = node.info;
-            }
+            Manager mng = Manager.SearchManager(id);
+         
         }
 
         private void btn_back33_Click(object sender, EventArgs e)
@@ -36,9 +33,9 @@ namespace University
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
-            if (id != textBox1.Text)
+            if (id != Int32.Parse(textBox1.Text))
             {
-                if (mng.RemoveManagerFully(textBox1.Text))
+                if (mng.RemoveManagerFully(Int32.Parse(textBox1.Text)))
                 {
                     FileStream file = File.Create("Uni");
                     BinaryFormatter bf = new BinaryFormatter();

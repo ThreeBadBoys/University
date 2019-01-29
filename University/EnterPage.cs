@@ -24,7 +24,7 @@ namespace University
             LogInType.SelectedItem = "دانشجو";
 
 
-            Node<Master> mst = Universal.instance.firstMst;
+            Master mst = Universal.instance.firstMst;
             //Console.WriteLine(mst.info.lessons[0].info.students.Count);
         }
         private void btn_enter_Click(object sender, EventArgs e)
@@ -33,7 +33,7 @@ namespace University
             {
                 if (authentication(0, username_id.Text, password1.Text))
                 {
-                    StudentPanel studentPanel = new StudentPanel(username_id.Text);
+                    StudentPanel studentPanel = new StudentPanel(Int32.Parse((username_id.Text));
                     studentPanel.Show();
                     this.Hide();
                 }
@@ -43,7 +43,7 @@ namespace University
             {
                 if (authentication(1, username_id.Text, password1.Text))
                 {
-                    MasterPanel teacherPanel = new MasterPanel(username_id.Text);
+                    MasterPanel teacherPanel = new MasterPanel(Int32.Parse(username_id.Text);
                     teacherPanel.Show();
                     this.Hide();
                 }
@@ -53,14 +53,14 @@ namespace University
             {
                 if (authentication(2, username_id.Text, password1.Text))
                 {
-                    ManagerPanel amoozesh = new ManagerPanel(username_id.Text);
+                    ManagerPanel amoozesh = new ManagerPanel(Int32.Parse(username_id.Text));
                     amoozesh.Show();
                     this.Hide();
                 }
               
             }
         }
-        public bool authentication(int type, string id, string password)
+        public bool authentication(int type, int id, string password)
         {
             if (password != "")
             {

@@ -14,13 +14,13 @@ namespace University
 {
     public partial class ChangePasswordStudent : Form
     {
-        string id;
+        int id;
         Student std;
-        public ChangePasswordStudent(string id)
+        public ChangePasswordStudent(int id)
         {
             this.id = id;
             InitializeComponent();
-            std = Manager.SearchStudent(id).info;
+            std = Manager.SearchStudent(id);
           
         }
     

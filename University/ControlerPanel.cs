@@ -15,8 +15,8 @@ namespace University
 {
     public partial class ControlerPanel : Form
     {
-        string id;
-        public ControlerPanel(string id)
+        int id;
+        public ControlerPanel(int id)
         {
             InitializeComponent();
             this.id = id;

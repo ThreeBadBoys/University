@@ -6,17 +6,17 @@ namespace University
     
     public partial class StudentPanel : Form
     {
-        string id;
+        int id;
    
-        public StudentPanel(string id)
+        public StudentPanel(int id)
         {
             InitializeComponent();
             this.id = id;
-            Node<Student> node = Manager.SearchStudent(id);
-            if ( node!= null)
+           Student std = Manager.SearchStudent(id);
+            if ( std!= null)
             {
-                studentId.Text = node.info.id.ToString();
-                studentName.Text = node.info.firstName + " " + node.info.lastName;
+                studentId.Text = std.id.ToString();
+                studentName.Text = std.firstName + " " + std.lastName;
 
             }
             btn_unitChoose.Enabled = Universal.instance.isAbleUnitChoice;

@@ -44,7 +44,7 @@
             this.groupBox1.Controls.Add(this.btn_remove);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Font = new System.Drawing.Font("B Nazanin", 11F, System.Drawing.FontStyle.Bold);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold);
             this.groupBox1.Location = new System.Drawing.Point(33, 36);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
@@ -71,7 +71,7 @@
             this.textBox1.Location = new System.Drawing.Point(197, 55);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 37);
+            this.textBox1.Size = new System.Drawing.Size(100, 28);
             this.textBox1.TabIndex = 1;
             // 
             // label1
@@ -79,7 +79,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(325, 60);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 30);
+            this.label1.Size = new System.Drawing.Size(115, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "شناسه کاربری:";
             // 
@@ -89,7 +89,7 @@
             // 
             // btn_back33
             // 
-            this.btn_back33.Font = new System.Drawing.Font("B Nazanin", 7.8F, System.Drawing.FontStyle.Bold);
+            this.btn_back33.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
             this.btn_back33.Location = new System.Drawing.Point(33, 199);
             this.btn_back33.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_back33.Name = "btn_back33";

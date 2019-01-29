@@ -83,7 +83,7 @@ namespace UniversityClasses
          */
         public int get(int key)
         {
-            if (key == null) throw new ArgumentOutOfRangeException("argument to get() is null");
+            if (key == 0) throw new ArgumentOutOfRangeException("argument to get() is null");
             return search(root, key, height);
         }
 
@@ -122,7 +122,7 @@ namespace UniversityClasses
          */
         public void put(int key, int address)
         {
-            if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
+            if (key == 0) throw new ArgumentOutOfRangeException("argument key to put() is null");
             Node u = insert(root, key, address, height);
             n++;
             if (u == null) return;
@@ -140,7 +140,7 @@ namespace UniversityClasses
          */
         public void delete(int key)
         {
-            if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
+            if (key == 0) throw new ArgumentOutOfRangeException("argument key to put() is null");
             Node u = insert(root, key, -1, height);
             n++;
             if (u == null) return;

@@ -15,24 +15,24 @@ namespace University
 {
     public partial class InsertingGradePanel : Form
     {
-        string id;
+        int id;
         int code;
         Master master;
-        List<Node<Student>> students;
-        public InsertingGradePanel(string id, int code)
+        List<Student> students;
+        public InsertingGradePanel(int id, int code)
         {
             InitializeComponent();
             this.id = id;
             this.code = code;
-            master = Manager.SearchMaster(id).info;
+            master = Manager.SearchMaster(id);
             if (master != null)
             {
                 for (int i = 0; i < master.lessons.Count; i++)
                 {
-                    if (master.lessons[i].info.code == code)
+                    if (master.lessons[i].code == code)
                     {
-                        course_title.Text = master.lessons[i].info.name;
-                        students = master.lessons[i].info.students;
+                        course_title.Text = master.lessons[i].name;
+                        students = master.lessons[i].students;
                         break;
                     }
                 }
@@ -54,22 +54,22 @@ namespace University
            
             if (students == null)
             {
-                students = new List<Node<Student>>();
+                students = new List<Student>();
             }
             for (int i = 0; i < students.Count; i++)
             {
                 ArrayList row = new ArrayList();
                 double grade = -1;
-                for(int j = 0; j < students[i].info.choosenLessons.Count; j++)
+                for(int j = 0; j < students[i].choosenLessons.Count; j++)
                 {
-                    if (students[i].info.choosenLessons[j].course.code == code)
+                    if (students[i].choosenLessons[j].course.code == code)
                     {
-                        grade = students[i].info.choosenLessons[j].grade;
+                        grade = students[i].choosenLessons[j].grade;
                     }
                 }
                 row.Add((i+1).ToString());
-                row.Add(students[i].info.firstName +" "+ students[i].info.lastName);
-                row.Add(students[i].info.id+"");
+                row.Add(students[i].firstName +" "+ students[i].lastName);
+                row.Add(students[i].id+"");
                 row.Add(grade.ToString());
                 row.Add(grade==-1?"نمره ثبت نشده":grade<10?"مردود":"گذرانده");
                 dataGridView1.Rows.Add(row.ToArray());
@@ -77,7 +77,7 @@ namespace University
         }
         private void btn_insert_stds_Click(object sender, EventArgs e)
         {
-            if(stdid.Text.Length!=0 && grade.Text.Length != 0 && master.insertingGrade(stdid.Text,Double.Parse(grade.Text),code))
+            if(stdid.Text.Length!=0 && grade.Text.Length != 0 && master.insertingGrade(Int32.Parse(stdid.Text),Double.Parse(grade.Text),code))
             {
                 FileStream file = File.Create("Uni");
                 BinaryFormatter bf = new BinaryFormatter();
