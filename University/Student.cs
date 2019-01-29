@@ -33,6 +33,10 @@ namespace UniversityClasses
         {
             get; set;
         }
+        public Student()
+        {
+
+        }
 
 
         public Student(string firstName, string lastName, string major)
@@ -40,18 +44,14 @@ namespace UniversityClasses
             this.firstName = firstName;
             this.lastName = lastName;
             this.major = major;
-            Node<Student> lastStudentRow = Universal.instance.lastStd;
-            Node<Student> lastStudent = lastStudentRow;
-            if (Universal.instance.firstStd != null)
-            {
-                while (lastStudent.next != null)
-                {
-                    lastStudent = lastStudent.next;
-                }
-            }
+            Node lastStudentRow = Universal.instance.lastStd;
+            Node lastStudent = lastStudentRow;
+          
             this.id = Universal.instance.firstStd == null ? 97000000000 : lastStudent.info.id + 1;
 
-            this.password = lastStudent == null ? "97000000000" : (lastStudent.info.id + 1).ToString();
+            this.password = lastStudent == null ? "9700" : (lastStudent.info.id + 1).ToString();
+
+
         }
 
         public int EditPassword(string currentPassWord, string newPassword, string newPasswordAgain)

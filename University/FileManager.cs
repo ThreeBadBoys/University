@@ -35,28 +35,26 @@ namespace University
                 }
             }
         }
-
-
-
-
-
-        public static void Remove(BTree whichTree, object objectTempToRemove, uint objectToRemoveID, string fileDirectoryPlusName)
+        public static bool Remove(BTree whichTree, object objectTempToRemove, uint objectToRemoveID, string fileDirectoryPlusName)
         {
             int index = whichTree.get(objectToRemoveID);
-
-            byte[] buffer = ObjectToByteArray(null);
-            byte[] objectArray = ObjectToByteArray(objectTempToRemove);
-
-            using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
+            if (index != -1)
             {
-                using (MemoryMappedViewAccessor mmfWriter = mmf.CreateViewAccessor(index * objectArray.Length, buffer.Length))
-                {
-                    mmfWriter.WriteArray<byte>(index * objectArray.Length, buffer, 0, 1);
-                }
-            }
-            whichTree.delete(objectToRemoveID);
-        }
+                byte[] buffer = ObjectToByteArray(null);
+                byte[] objectArray = ObjectToByteArray(objectTempToRemove);
 
+                using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
+                {
+                    using (MemoryMappedViewAccessor mmfWriter = mmf.CreateViewAccessor(index * objectArray.Length, buffer.Length))
+                    {
+                        mmfWriter.WriteArray<byte>(index * objectArray.Length, buffer, 0, 1);
+                    }
+                }
+                whichTree.delete(objectToRemoveID);
+                return true;
+            }
+            return false;
+        }
         public static void Load(BTree whichTree, object objectTempToLoad, uint objectToLoadID, string fileDirectoryPlusName)
         {
             int index = whichTree.get(objectToLoadID);

@@ -33,6 +33,11 @@ namespace UniversityClasses
             get; set;
         }
         //-------------------------------
+        public Master()
+        {
+
+        }
+
         public Master(string firstName, string lastName, List<Course> lessons)
         {
             this.firstName = firstName;

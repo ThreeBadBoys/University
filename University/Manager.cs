@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using UniversityClasses;
-
+using University;
 namespace UniversityClasses
 {
     [System.Serializable]
@@ -106,21 +106,23 @@ namespace UniversityClasses
             if (isValidName(firstName) && isValidName(lastName))
             {
                 Student student = new Student(firstName.Trim(), lastName.Trim(), major);
-                //Now Here we have to check the Tree
-                if (Universal.instance.studentTree == null)
-                {
-                    BTree newStudent = new BTree();
-                    newStudent.put(student.id + "", "std\\" + student.id);
-                    Universal.instance.studentTree = newStudent;
-                }
-                else
-                {
-                    Universal.instance.studentTree.put(student.id + "", "std\\" + student.id);
-                }
-                FileStream file = File.Create("std\\" + student.id);
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, student);
-                file.Close();
+                //    //Now Here we have to check the Tree
+                //    if (Universal.instance.studentTree == null)
+                //     {
+                //        BTree newStudent = new BTree();
+                //        newStudent.put(student.id + "", "std\\" + student.id);
+                //        Universal.instance.studentTree = newStudent;
+                //    }
+                //   else
+                //   {
+                //       Universal.instance.studentTree.put(student.id + "", "std\\" + student.id);
+                //  }
+                //   FileStream file = File.Create("std\\" + student.id);
+                //   BinaryFormatter bf = new BinaryFormatter();
+                //    bf.Serialize(file, student);
+                //   file.Close();
+
+                FileManager.Add<Student>(Universal.instance.studentTree, student, student.id, fileDirectoryPlusName:);
                 return true;
             }
             else
@@ -135,20 +137,21 @@ namespace UniversityClasses
             {
                 Master master = new Master(firstName, lastName, lessons);
                 //Now Here we have to check the Tree
-                if (Universal.instance.masterTree == null)
-                {
-                    BTree newMaster = new BTree();
-                    newMaster.put(master.id + "", "mst\\" + master.id);
-                    Universal.instance.studentTree = newMaster;
-                }
-                else
-                {
-                    Universal.instance.studentTree.put(master.id + "", "mst\\" + master.id);
-                }
-                FileStream file = File.Create("mst\\" + master.id);
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, master);
-                file.Close();
+                //    if (Universal.instance.masterTree == null)
+                //    {
+                //        BTree newMaster = new BTree();
+                //         newMaster.put(master.id + "", "mst\\" + master.id);
+                //        Universal.instance.studentTree = newMaster;
+                //     }
+                //    else
+                //     {
+                //         Universal.instance.studentTree.put(master.id + "", "mst\\" + master.id);
+                //    }
+                //     FileStream file = File.Create("mst\\" + master.id);
+                //     BinaryFormatter bf = new BinaryFormatter();
+                //    bf.Serialize(file, master);
+                //    file.Close();
+                FileManager.Add<Master>(Universal.instance.studentTree, master, master.id, fileDirectoryPlusName:);//TODO
                 return true;
             }
             else
@@ -163,20 +166,21 @@ namespace UniversityClasses
             {
                 Manager manager = new Manager(firstName.Trim(), lastName.Trim(), password);
                 //Now Here we have to check the Tree
-                if (Universal.instance.managerTree == null)
-                {
-                    BTree newMaster = new BTree();
-                    newMaster.put(manager.id + "", "mng\\" + manager.id);
-                    Universal.instance.studentTree = newMaster;
-                }
-                else
-                {
-                    Universal.instance.studentTree.put(manager.id + "", "mng\\" + manager.id);
-                }
-                FileStream file = File.Create("mng\\" + manager.id);
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, manager);
-                file.Close();
+                //   if (Universal.instance.managerTree == null)
+                //  {
+                //      BTree newMaster = new BTree();
+                //      newMaster.put(manager.id + "", "mng\\" + manager.id);
+                //       Universal.instance.studentTree = newMaster;
+                //   }
+                //   else
+                //   {
+                //       Universal.instance.studentTree.put(manager.id + "", "mng\\" + manager.id);
+                //   }
+                //   FileStream file = File.Create("mng\\" + manager.id);
+                //   BinaryFormatter bf = new BinaryFormatter();
+                //   bf.Serialize(file, manager);
+                //   file.Close();
+                FileManager.Add<Manager>(Universal.instance.studentTree, manager, manager.id, fileDirectoryPlusName:);//TODO
                 return true;
             }
             else
@@ -185,9 +189,9 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public bool AddCourse(String code, String name, String mstId, String time, String examTime, int val)
+        public bool AddCourse(String code, String name, int mstId, String time, String examTime, int val)
         {
-            if (isValidName(name) && isNumber(code) && isNumber(mstId) && (SearchMaster(mstId) != null))
+            if (isValidName(name) && isNumber(code) && (SearchMaster(mstId) != null))
             {
                 //We have to check if master exists
                 Master mst = SearchMaster(mstId);
@@ -195,21 +199,22 @@ namespace UniversityClasses
                 {
                     Course course = new Course(name.Trim(), Convert.ToInt32(code.Trim()), val, time, examTime, SearchMaster(mstId));
                     //Now Here we have to check the Tree
-                    if (Universal.instance.courseTree == null)
-                    {
-                        BTree newCourse = new BTree();
-                        newCourse.put(course.code + "", "crs\\" + course.code);
-                        Universal.instance.studentTree = newCourse;
-                    }
-                    else
-                    {
-                        Universal.instance.studentTree.put(course.code + "", "crs\\" + course.code);
-                    }
-                    mst.lessons.Add(course);
-                    FileStream file = File.Create("crs\\" + course.code);
-                    BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(file, course);
-                    file.Close();
+                    //   if (Universal.instance.courseTree == null)
+                    //   {
+                    //      BTree newCourse = new BTree();
+                    //      newCourse.put(course.code + "", "crs\\" + course.code);
+                    //      Universal.instance.studentTree = newCourse;
+                    //  }
+                    //  else
+                    //  {
+                    //      Universal.instance.studentTree.put(course.code + "", "crs\\" + course.code);
+                    //  }
+                    //  mst.lessons.Add(course);
+                    // FileStream file = File.Create("crs\\" + course.code);
+                    //  BinaryFormatter bf = new BinaryFormatter();
+                    //  bf.Serialize(file, course);
+                    //  file.Close();
+                    FileManager.Add<Course>(Universal.instance.studentTree, course, course.code, fileDirectoryPlusName:);//TODO
                     return true;
                 }
                 return false;
@@ -221,85 +226,41 @@ namespace UniversityClasses
             //End of Method
         }
 
-        public static Student SearchStudent(string id)
+        public static Student SearchStudent(int id)
         {
-            if (Universal.instance != null && Universal.instance.studentTree != null && isNumber(id) && id.Length == 11)
-            {
-                string address = Universal.instance.studentTree.get(id.ToString());
-                try
-                {
-                    FileStream file = File.Open(address, FileMode.Open);
-                    BinaryFormatter bf = new BinaryFormatter();
-                    return (bf.Deserialize(file) as Student);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
+            Student student = new Student();
+            FileManager.Load(Universal.instance.studentTree, student, id, fileDirectoryPlusName:);//TODO
+            return student;
             //End of Method
         }
-        public static Master SearchMaster(string id)
+        public static Master SearchMaster(int id)
         {
-            if (Universal.instance != null && Universal.instance.masterTree != null && isNumber(id) && id.Length == 10)
-            {
-                string address = Universal.instance.masterTree.get(id.ToString());
-                try
-                {
-                    FileStream file = File.Open(address, FileMode.Open);
-                    BinaryFormatter bf = new BinaryFormatter();
-                    return (bf.Deserialize(file) as Master);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
+            Master master = new Master();
+            FileManager.Load(Universal.instance.masterTree, master, id, fileDirectoryPlusName:);//TODO
+            return master;
             //End of Method
         }
         public static Manager SearchManager(string id)
         {
-            if (Universal.instance != null && Universal.instance.managerTree != null && isNumber(id) && id.Length == 9)
-            {
-                string address = Universal.instance.managerTree.get(id.ToString());
-                try
-                {
-                    FileStream file = File.Open(address, FileMode.Open);
-                    BinaryFormatter bf = new BinaryFormatter();
-                    return (bf.Deserialize(file) as Manager);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
+            Manager manager = new Manager();
+            FileManager.Load(Universal.instance.managerTree, manager, id, fileDirectoryPlusName:);//TODO
+            return manager;
             //End of Method
         }
 
         /**
          * This function removes student key in BTree and removes related file
          */
-        public bool RemoveStudentFully(string id)
-        {
-            if (Universal.instance != null && Universal.instance.studentTree != null && isNumber(id) && id.Length == 11)// Checking whether we have student or not
+        public bool RemoveStudentFully(uint id)
+        {                                                                               //CHECK IT\|/
+            if (Universal.instance != null && Universal.instance.studentTree != null && id.Length == 11)// Checking whether we have student or not
             {
                 string address = Universal.instance.studentTree.get(id.ToString());
                 if (address == null) return false;
                 File.Delete(address);
                 Universal.instance.studentTree.delete(id.ToString());
                 //Student deleted successfully
+                FileManager.Remove(Universal.instance.studentTree,, id, fileDirectoryPlusName:);
                 return true;
             }
             else
@@ -308,7 +269,7 @@ namespace UniversityClasses
                 return false;
             }
             //End of Method
-        }
+        } }
 
         public bool RemoveMasterFully(string id)
         {
