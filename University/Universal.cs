@@ -16,7 +16,7 @@ namespace UniversityClasses
             if (instance == null)
             {
                 instance = new Universal();
-                if (File.Exists("Uni"))
+                if (File.Exists("mng") && File.Exists("mst") && File.Exists("std") && File.Exists("crs"))
                 {
                     //File exists.
                     FileStream std = File.Open("std", FileMode.Open);
