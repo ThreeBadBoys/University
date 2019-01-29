@@ -19,45 +19,104 @@ namespace UniversityClasses
                 if (File.Exists("Uni"))
                 {
                     //File exists.
-                    FileStream file = File.Open("Uni", FileMode.Open);
+                    FileStream std = File.Open("std", FileMode.Open);
+                    FileStream mst = File.Open("mst", FileMode.Open);
+                    FileStream mng = File.Open("mng", FileMode.Open);
+                    FileStream crs = File.Open("crs", FileMode.Open);
                     BinaryFormatter bf = new BinaryFormatter();
-                    if (new FileInfo("Uni").Length == 0)
+                    if (new FileInfo("mng").Length == 0)
                     {
                         //File is empty.
                         BTree newManager = new BTree();
                         Manager manager = new Manager();
                         newManager.put(manager.id + "", "mng\\" + manager.id);
                         instance.managerTree = newManager;
-                        bf.Serialize(file, instance);
+                        bf.Serialize(mng, newManager);
                         FileStream newFile = File.Create("mng\\" + manager.id);
                         BinaryFormatter newbf = new BinaryFormatter();
                         bf.Serialize(newFile, manager);
-                        
                         newFile.Close();
-                        file.Close();
+                        mng.Close();
                     }
                     else
                     {
                         //File was already created.
-                        instance = bf.Deserialize(file) as Universal;
-                        file.Close();
+                        instance.managerTree = bf.Deserialize(mng) as BTree;
+                        mng.Close();
+                    }
+                    if (new FileInfo("std").Length == 0)
+                    {
+                        //File is empty.
+                        BTree newStudent = new BTree();
+                        instance.studentTree = newStudent;
+                        bf.Serialize(std, newStudent);
+                        std.Close();
+                    }
+                    else
+                    {
+                        //File was already created.
+                        instance.studentTree = bf.Deserialize(std) as BTree;
+                        std.Close();
+                    }
+                    if (new FileInfo("mst").Length == 0)
+                    {
+                        //File is empty.
+                        BTree newMaster = new BTree();
+                        instance.masterTree = newMaster;
+                        bf.Serialize(mst, newMaster);
+                        mst.Close();
+                    }
+                    else
+                    {
+                        //File was already created.
+                        instance.masterTree = bf.Deserialize(mst) as BTree;
+                        mst.Close();
+                    }
+                    if (new FileInfo("crs").Length == 0)
+                    {
+                        //File is empty.
+                        BTree newCourse = new BTree();
+                        instance.courseTree = newCourse;
+                        bf.Serialize(crs, newCourse);
+                        crs.Close();
+                    }
+                    else
+                    {
+                        //File was already created.
+                        instance.courseTree = bf.Deserialize(crs) as BTree;
+                        crs.Close();
                     }
                 }
                 else
                 {
                     //File not exists
                     BTree newManager = new BTree();
+                    BTree newMaster = new BTree();
+                    BTree newStudent = new BTree();
+                    BTree newCourse = new BTree();
                     Manager manager = new Manager();
                     newManager.put(manager.id + "", "mng\\" + manager.id);
                     instance.managerTree = newManager;
-                    FileStream file = File.Create("Uni");
+                    instance.masterTree = newMaster;
+                    instance.studentTree = newStudent;
+                    instance.courseTree = newCourse;
+                    FileStream mng = File.Create("mng");
+                    FileStream mst = File.Create("mst");
+                    FileStream std = File.Create("std");
+                    FileStream crs = File.Create("crs");
                     BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(file, instance);
+                    bf.Serialize(mng, newManager);
+                    bf.Serialize(mst, newMaster);
+                    bf.Serialize(std, newStudent);
+                    bf.Serialize(crs, newCourse);
                     FileStream newFile = File.Create("mng\\" + manager.id);
                     BinaryFormatter newbf = new BinaryFormatter();
                     bf.Serialize(newFile, manager);
                     newFile.Close();
-                    file.Close();
+                    mng.Close();
+                    mst.Close();
+                    std.Close();
+                    crs.Close();
                 }
             }
         }
