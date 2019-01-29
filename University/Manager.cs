@@ -24,7 +24,7 @@ namespace UniversityClasses
         {
             get; set;
         }
-        public ulong id
+        public uint id
         {
             get; set;
         }

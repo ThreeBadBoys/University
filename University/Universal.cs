@@ -16,137 +16,137 @@ namespace UniversityClasses
             if (instance == null)
             {
                 instance = new Universal();
-                if (File.Exists("mng"))
+                if (File.Exists("mngTree"))
                 {
-                    //File exists.
-                    FileStream mng = File.Open("mng", FileMode.Open);
+                    //Tree File exists.
+                    FileStream mngTreeFile = File.Open("mngTree", FileMode.Open);
                     BinaryFormatter bf = new BinaryFormatter();
-                    if (new FileInfo("mng").Length == 0)
+                    if (new FileInfo("mngTree").Length == 0)
                     {
-                        //File is empty.
-                        BTree newManager = new BTree();
+                        //Tree File is empty.
+                        BTree mngTree = new BTree();
                         Manager manager = new Manager();
-                        newManager.put(manager.id + "", "mng\\" + manager.id);
-                        instance.managerTree = newManager;
-                        bf.Serialize(mng, newManager);
-                        FileStream newFile = File.Create("mng\\" + manager.id);
-                        BinaryFormatter newbf = new BinaryFormatter();
-                        bf.Serialize(newFile, manager);
-                        newFile.Close();
-                        mng.Close();
+                        mngTree.put(manager.id, 0);
+                        instance.managerTree = mngTree;
+                        bf.Serialize(mngTreeFile, mngTree);
+                                                                                                                                                    // FileStream newFile = File.Create("mng\\" + manager.id);
+                                                                                                                                                    // BinaryFormatter newbf = new BinaryFormatter();
+                                                                                                                                                    //bf.Serialize(newFile, manager);
+                                                                                                                                                    // newFile.Close();
+                        mngTreeFile.Close();
                     }
                     else
                     {
-                        //File was already created.
-                        instance.managerTree = bf.Deserialize(mng) as BTree;
-                        mng.Close();
+                        //Tree File was already created.
+                        instance.managerTree = bf.Deserialize(mngTreeFile) as BTree;
+                        mngTreeFile.Close();
                     }
                 }
                 else
                 {
-                    //File not exists
-                    BTree newManager = new BTree();
+                    //Tree File not exists
+                    BTree mngTree = new BTree();
                     Manager manager = new Manager();
-                    newManager.put(manager.id + "", "mng\\" + manager.id);
-                    instance.managerTree = newManager;
-                    FileStream mng = File.Create("mng");
+                    mngTree.put(manager.id, 0);
+                    instance.managerTree = mngTree;
+                    FileStream mngTreeFile = File.Create("mngTree");
                     BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(mng, newManager);
-                    FileStream newFile = File.Create("mng\\" + manager.id);
-                    BinaryFormatter newbf = new BinaryFormatter();
-                    bf.Serialize(newFile, manager);
-                    newFile.Close();
-                    mng.Close();
+                    bf.Serialize(mngTreeFile, mngTree);
+                                                                                                                                                //FileStream newFile = File.Create("mng\\" + manager.id);
+                                                                                                                                                //BinaryFormatter newbf = new BinaryFormatter();
+                                                                                                                                                //bf.Serialize(newFile, manager);
+                                                                                                                                                //newFile.Close();
+                    mngTreeFile.Close();
                 }
-                if (File.Exists("mst"))
+                if (File.Exists("mstTree"))
+                {
+                    //Tree File exists.
+                    FileStream mstTreeFile = File.Open("mstTree", FileMode.Open);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    if (new FileInfo("mstTree").Length == 0)
+                    {
+                        //Tree File is empty.
+                        BTree mstTree = new BTree();
+                        instance.masterTree = mstTree;
+                        bf.Serialize(mstTreeFile, mstTree);
+                        mstTreeFile.Close();
+                    }
+                    else
+                    {
+                        //Tree File was already created.
+                        instance.masterTree = bf.Deserialize(mstTreeFile) as BTree;
+                        mstTreeFile.Close();
+                    }
+                }
+                else
+                {
+                    //Tree File not exists
+                    BTree mstTree = new BTree();
+                    instance.masterTree = mstTree;
+                    FileStream mstFile = File.Create("mstTree");
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(mstFile, mstTree);
+                    mstFile.Close();
+                }
+                if (File.Exists("stdTree"))
+                {
+                    //Tree File exists.
+                    FileStream stdTreeFile = File.Open("stdTree", FileMode.Open);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    if (new FileInfo("stdTree").Length == 0)
+                    {
+                        //Tree File is empty.
+                        BTree stdTree = new BTree();
+                        instance.studentTree = stdTree;
+                        bf.Serialize(stdTreeFile, stdTree);
+                        stdTreeFile.Close();
+                    }
+                    else
+                    {
+                        //Tree File was already created.
+                        instance.studentTree = bf.Deserialize(stdTreeFile) as BTree;
+                        stdTreeFile.Close();
+                    }
+                }
+                else
+                {
+                    //Tree File not exists
+                    BTree stdTree = new BTree();
+                    instance.studentTree = stdTree;
+                    FileStream stdTreeFile = File.Create("stdTree");
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(stdTreeFile, stdTree);
+                    stdTreeFile.Close();
+                }
+                if (File.Exists("crsTree"))
                 {
                     //File exists.
-                    FileStream mst = File.Open("mst", FileMode.Open);
+                    FileStream crsFile = File.Open("crsTree", FileMode.Open);
                     BinaryFormatter bf = new BinaryFormatter();
-                    if (new FileInfo("mst").Length == 0)
+                    if (new FileInfo("crsTree").Length == 0)
                     {
                         //File is empty.
-                        BTree newMaster = new BTree();
-                        instance.masterTree = newMaster;
-                        bf.Serialize(mst, newMaster);
-                        mst.Close();
+                        BTree crsTree = new BTree();
+                        instance.courseTree = crsTree;
+                        bf.Serialize(crsFile, crsTree);
+                        crsFile.Close();
                     }
                     else
                     {
                         //File was already created.
-                        instance.masterTree = bf.Deserialize(mst) as BTree;
-                        mst.Close();
+                        instance.courseTree = bf.Deserialize(crsFile) as BTree;
+                        crsFile.Close();
                     }
                 }
                 else
                 {
                     //File not exists
-                    BTree newMaster = new BTree();
-                    instance.masterTree = newMaster;
-                    FileStream mst = File.Create("mst");
+                    BTree crsTree = new BTree();
+                    instance.courseTree = crsTree;
+                    FileStream crsTreeFile = File.Create("crsTree");
                     BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(mst, newMaster);
-                    mst.Close();
-                }
-                if (File.Exists("std"))
-                {
-                    //File exists.
-                    FileStream std = File.Open("std", FileMode.Open);
-                    BinaryFormatter bf = new BinaryFormatter();
-                    if (new FileInfo("std").Length == 0)
-                    {
-                        //File is empty.
-                        BTree newStudent = new BTree();
-                        instance.studentTree = newStudent;
-                        bf.Serialize(std, newStudent);
-                        std.Close();
-                    }
-                    else
-                    {
-                        //File was already created.
-                        instance.studentTree = bf.Deserialize(std) as BTree;
-                        std.Close();
-                    }
-                }
-                else
-                {
-                    //File not exists
-                    BTree newStudent = new BTree();
-                    instance.studentTree = newStudent;
-                    FileStream std = File.Create("std");
-                    BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(std, newStudent);
-                    std.Close();
-                }
-                if (File.Exists("crs"))
-                {
-                    //File exists.
-                    FileStream crs = File.Open("crs", FileMode.Open);
-                    BinaryFormatter bf = new BinaryFormatter();
-                    if (new FileInfo("crs").Length == 0)
-                    {
-                        //File is empty.
-                        BTree newCourse = new BTree();
-                        instance.courseTree = newCourse;
-                        bf.Serialize(crs, newCourse);
-                        crs.Close();
-                    }
-                    else
-                    {
-                        //File was already created.
-                        instance.courseTree = bf.Deserialize(crs) as BTree;
-                        crs.Close();
-                    }
-                }
-                else
-                {
-                    //File not exists
-                    BTree newCourse = new BTree();
-                    instance.courseTree = newCourse;
-                    FileStream crs = File.Create("crs");
-                    BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(crs, newCourse);
-                    crs.Close();
+                    bf.Serialize(crsTreeFile, crsTree);
+                    crsTreeFile.Close();
                 }
             }
         }

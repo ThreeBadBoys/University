@@ -17,20 +17,21 @@ namespace University
                 {
                     byte[] buffer = new byte[mmfReader.Capacity];
                     byte[] objectArray = ObjectToByteArray(objectToAdd);
-
-                    int i;
-                    for (i = 0; ; i++)
+                    
+                    for (int index = 0; ; index++)
                     {
-                        if (!mmfReader.CanRead)
+                        if (mmfReader.CanRead)
                         {
-                            mmfReader.ReadArray<byte>(i * objectArray.Length, buffer, 0, 1);
+                            mmfReader.ReadArray<byte>(index * objectArray.Length, buffer, 0, 1);
                             T temp = (T)ByteArrayToObject(buffer);
                             if (temp == null)
                             {
-                                whichTree.put(objectToAddID, i);
+                                whichTree.put(objectToAddID, index);
                                 return;
                             }
                         }
+                        else
+                            return;
                     }
                 }
             }
@@ -55,6 +56,7 @@ namespace University
             }
             return false;
         }
+
         public static void Load(BTree whichTree, object objectTempToLoad, uint objectToLoadID, string fileDirectoryPlusName)
         {
             int index = whichTree.get(objectToLoadID);
@@ -71,11 +73,30 @@ namespace University
             objectTempToLoad = ByteArrayToObject(buffer);
         }
 
+        public static bool SaveEdited(BTree whichTree, object objectToEdit, uint objectToEditID, string fileDirectoryPlusName)
+        {
+            int index = whichTree.get(objectToEditID);
+            if (index == -1)
+                return false;
+
+            byte[] buffer = ObjectToByteArray(objectToEdit);
+            
+            using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
+            {
+                using (MemoryMappedViewAccessor mmfWriter = mmf.CreateViewAccessor())
+                {
+                    mmfWriter.WriteArray<byte>(index * buffer.Length, buffer, 0, 1);
+                }
+            }
+
+            return true;
+        }
+
         private static byte[] ObjectToByteArray(object objectToGetBytes)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();    // Create new BinaryFormatter
             MemoryStream memoryStream = new MemoryStream();             // Create target memory stream
-            binaryFormatter.Serialize(memoryStream, objectToGetBytes);       // Serialize object to stream
+            binaryFormatter.Serialize(memoryStream, objectToGetBytes);  // Serialize object to stream
             return memoryStream.ToArray();
         }
 
