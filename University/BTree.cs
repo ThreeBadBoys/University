@@ -81,13 +81,13 @@ namespace UniversityClasses
          *         and {@code null} if the key is not in the symbol table
          * @throws ArgumentOutOfRangeException if {@code key} is {@code null}
          */
-        public int get(uint key)
+        public int get(int key)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument to get() is null");
             return search(root, key, height);
         }
 
-        private int search(Node x, uint key, int ht)
+        private int search(Node x, int key, int ht)
         {
             Entry[] children = x.children;
 
@@ -120,7 +120,7 @@ namespace UniversityClasses
          * @param  address the string
          * @throws ArgumentOutOfRangeException if {@code key} is {@code null}
          */
-        public void put(uint key, int address)
+        public void put(int key, int address)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
             Node u = insert(root, key, address, height);
@@ -138,7 +138,7 @@ namespace UniversityClasses
         /**
          * this effectively deletes the key from the symbol table.
          */
-        public void delete(uint key)
+        public void delete(int key)
         {
             if (key == null) throw new ArgumentOutOfRangeException("argument key to put() is null");
             Node u = insert(root, key, -1, height);
@@ -153,7 +153,7 @@ namespace UniversityClasses
             height++;
         }
 
-        private Node insert(Node h, uint key, int address, int ht)
+        private Node insert(Node h, int key, int address, int ht)
         {
             int j;
             Entry t = new Entry(key, address, null);
@@ -235,12 +235,12 @@ namespace UniversityClasses
         }
 
         // comparison functions - make Comparable instead of Key to avoid casts
-        private bool less(uint k1, uint k2)
+        private bool less(int k1, int k2)
         {
             return k1.CompareTo(k2) < 0;
         }
 
-        private bool equal(uint k1, uint k2)
+        private bool equal(int k1, int k2)
         {
             return k1.Equals(k2);
         }

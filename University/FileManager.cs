@@ -7,7 +7,7 @@ namespace University
 {
     static class FileManager
     {
-        public static void Add<T>(BTree whichTree, object objectToAdd, uint objectToAddID, string fileDirectoryPlusName)
+        public static void Add<T>(BTree whichTree, object objectToAdd, int objectToAddID, string fileDirectoryPlusName)
         {
             // Get a handle to an existing memory mapped file
             using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
@@ -17,7 +17,7 @@ namespace University
                 {
                     byte[] buffer = new byte[mmfReader.Capacity];
                     byte[] objectArray = ObjectToByteArray(objectToAdd);
-                    
+
                     for (int index = 0; ; index++)
                     {
                         if (mmfReader.CanRead)
@@ -36,7 +36,7 @@ namespace University
                 }
             }
         }
-        public static bool Remove(BTree whichTree, object objectTempToRemove, uint objectToRemoveID, string fileDirectoryPlusName)
+        public static bool Remove(BTree whichTree, object objectTempToRemove, int objectToRemoveID, string fileDirectoryPlusName)
         {
             int index = whichTree.get(objectToRemoveID);
             if (index != -1)
@@ -57,30 +57,44 @@ namespace University
             return false;
         }
 
-        public static void Load(BTree whichTree, object objectTempToLoad, uint objectToLoadID, string fileDirectoryPlusName)
+        public static void Load(BTree whichTree, object objectTempToLoad, int objectToLoadID, string fileDirectoryPlusName)
         {
             int index = whichTree.get(objectToLoadID);
 
+            bool Readable;
+
+            objectTempToLoad = LoadObj(objectTempToLoad, fileDirectoryPlusName, index, out Readable);
+        }
+        public static void Load(BTree whichTree, object objectTempToLoad, out bool Readable, string fileDirectoryPlusName, int index)
+        {
+            objectTempToLoad = LoadObj(objectTempToLoad, fileDirectoryPlusName, index, out Readable);
+        }
+
+        private static object LoadObj(object objectTempToLoad, string fileDirectoryPlusName, int index, out bool Readable)
+        {
             byte[] buffer = ObjectToByteArray(objectTempToLoad);
 
             using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
             {
                 using (MemoryMappedViewAccessor mmfReader = mmf.CreateViewAccessor())
                 {
-                    mmfReader.ReadArray<byte>(index * buffer.Length, buffer, 0, 1);
+                    Readable = mmfReader.CanRead;
+                    if(Readable)
+                        mmfReader.ReadArray<byte>(index * buffer.Length, buffer, 0, 1);
                 }
             }
             objectTempToLoad = ByteArrayToObject(buffer);
+            return objectTempToLoad;
         }
 
-        public static bool SaveEdited(BTree whichTree, object objectToEdit, uint objectToEditID, string fileDirectoryPlusName)
+        public static bool SaveEdited(BTree whichTree, object objectToEdit, int objectToEditID, string fileDirectoryPlusName)
         {
             int index = whichTree.get(objectToEditID);
             if (index == -1)
                 return false;
 
             byte[] buffer = ObjectToByteArray(objectToEdit);
-            
+
             using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
             {
                 using (MemoryMappedViewAccessor mmfWriter = mmf.CreateViewAccessor())
@@ -105,6 +119,15 @@ namespace University
             BinaryFormatter binaryFormatter = new BinaryFormatter(); // Create new BinaryFormatter
             MemoryStream memoryStream = new MemoryStream(buffer);    // Convert buffer to memorystream
             return binaryFormatter.Deserialize(memoryStream);        // Deserialize stream to an object
+        }
+
+
+
+        public static bool IsReadable()
+        {
+
+
+            return false;
         }
     }
 }

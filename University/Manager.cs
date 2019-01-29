@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UniversityClasses;
 using University;
+
 namespace UniversityClasses
 {
     [System.Serializable]
@@ -24,7 +25,7 @@ namespace UniversityClasses
         {
             get; set;
         }
-        public uint id
+        public int id
         {
             get; set;
         }
@@ -34,47 +35,34 @@ namespace UniversityClasses
         {
             this.firstName = firstName;
             this.lastName = lastName;
-            this.password = password;
-            ulong lastManagerID;
-
+         
+        
             if (Universal.instance.managerTree != null)
             {
-                string lastManagerAddress = Universal.instance.managerTree.getLast();
-                if (lastManagerAddress != null)
+                Manager newMng = new Manager();
+                int lastManagerIndex = Universal.instance.managerTree.getLast();
+                FileManager.Load(Universal.instance.managerTree, newMng, lastManagerIndex, fileDirectoryPlusName:);//TODO
+                
+                if (lastManagerIndex != -1)
                 {
-                    try
-                    {
-                        FileStream file = File.Open(lastManagerAddress, FileMode.Open);
-                        lastManagerID = UInt64.Parse(lastManagerAddress.Substring(4)) + 1;
-                    }
-                    catch
-                    {
-                        lastManagerID = UInt64.Parse(lastManagerAddress.Substring(4));
-                    }
+                    this.id = newMng.id + 1;
+                    this.password = String.Format("%d", this.id);
                 }
                 else
                 {
-                    lastManagerID = 9700000000;
+                    this.id = 97000;
+                    this.password = String.Format("%d", this.id);
                 }
             }
-            else
-            {
-                lastManagerID = 9700000000;
-            }
+         
 
-            id = lastManagerID;
-
-            FileStream manager = File.Create("mng\\" + lastManagerID);
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(manager, this);
-            manager.Close();
         }
         public Manager()
         {
             firstName = "admin";
             lastName = "admin";
             password = "1234";
-            id = 970000000;
+            id = 97000;
         }
         //-----------------------------------------
         //functions
@@ -122,7 +110,7 @@ namespace UniversityClasses
                 //    bf.Serialize(file, student);
                 //   file.Close();
 
-                FileManager.Add<Student>(Universal.instance.studentTree, student, student.id, fileDirectoryPlusName:);
+                FileManager.Add<Student>(Universal.instance.studentTree, student, student.id, fileDirectoryPlusName:);//TODO
                 return true;
             }
             else
@@ -189,15 +177,15 @@ namespace UniversityClasses
             }
             //End of Method
         }
-        public bool AddCourse(String code, String name, int mstId, String time, String examTime, int val)
+        public bool AddCourse(int code, String name, int mstId, String time, String examTime, int val)
         {
-            if (isValidName(name) && isNumber(code) && (SearchMaster(mstId) != null))
+            if (isValidName(name) && ((Math.Log10((int)code)) + 1) == 5 && (SearchMaster(mstId) != null))
             {
                 //We have to check if master exists
                 Master mst = SearchMaster(mstId);
                 if (mst != null)
                 {
-                    Course course = new Course(name.Trim(), Convert.ToInt32(code.Trim()), val, time, examTime, SearchMaster(mstId));
+                    Course course = new Course(name.Trim(), Convert.ToInt32(code), val, time, examTime, mst);
                     //Now Here we have to check the Tree
                     //   if (Universal.instance.courseTree == null)
                     //   {
@@ -251,17 +239,13 @@ namespace UniversityClasses
         /**
          * This function removes student key in BTree and removes related file
          */
-        public bool RemoveStudentFully(uint id)
+        public bool RemoveStudentFully(int id)
         {                                                                               //CHECK IT\|/
-            if (Universal.instance != null && Universal.instance.studentTree != null && id.Length == 11)// Checking whether we have student or not
+            if (Universal.instance != null && Universal.instance.studentTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have student or not
             {
-                string address = Universal.instance.studentTree.get(id.ToString());
-                if (address == null) return false;
-                File.Delete(address);
-                Universal.instance.studentTree.delete(id.ToString());
-                //Student deleted successfully
-                FileManager.Remove(Universal.instance.studentTree,, id, fileDirectoryPlusName:);
+                FileManager.Remove(Universal.instance.studentTree, new Student(), id, fileDirectoryPlusName:);//TODO
                 return true;
+                //Student deleted successfully
             }
             else
             {
@@ -269,174 +253,27 @@ namespace UniversityClasses
                 return false;
             }
             //End of Method
-        } }
-
-        public bool RemoveMasterFully(string id)
-        {
-            if (Universal.instance.firstMst != null && isNumber(id))// Checking whether we have master or not
-            {
-                if (Universal.instance.firstMst.next != null || Universal.instance.firstMst.nextRow != null)//Checking if we have more than one master 
-                {
-                    if (Convert.ToUInt64(id) == Universal.instance.firstMst.info.id)  //Means that we wanna delete the first master
-                    {
-                        RowNode<Master> newfirstRowNode = new RowNode<Master>();
-                        newfirstRowNode.info = Universal.instance.firstMst.next.info;
-                        newfirstRowNode.next = Universal.instance.firstMst.next.next;
-                        newfirstRowNode.nextRow = Universal.instance.firstMst.nextRow;
-                        Universal.instance.firstMst = newfirstRowNode;
-                        return true;
-                    }
-                    else if (Convert.ToUInt64(id) == Universal.instance.lastMst.info.id)//Means that we wanna delete the last master
-                    {
-                        RowNode<Master> newlastRowNode = new RowNode<Master>();
-                        if (Universal.instance.lastMst.next != null) // Checking if we have convertable node to RowNode
-                        {
-                            newlastRowNode.info = Universal.instance.lastMst.next.info;
-                            newlastRowNode.next = Universal.instance.lastMst.next.next;
-                            Universal.instance.lastMst = newlastRowNode;
-                            return true;
-                        }
-                        else // Here we don't have convertable node to RowNode
-                        {
-                            RowNode<Master> lastMst = Universal.instance.firstMst;
-                            while (lastMst.nextRow != null && lastMst.nextRow.nextRow != null)
-                            {
-                                lastMst = lastMst.nextRow;
-                            }
-                            Universal.instance.lastMst = lastMst;
-                            return true;
-                        }
-                    }
-                    else // Here we want to delete the masters in which there are at the Middle Nodes
-                    {
-                        Node<Master> pre;
-                        pre = SearchPrevMaster(id);
-                        if (pre != null) //if the master exists
-                        {
-                            if (pre is RowNode<Master>)//Prev is RowNode
-                            {
-                                RowNode<Master> prev = pre as RowNode<Master>;
-                                if (prev.nextRow.info.id == Convert.ToUInt64(id))//Deleting node is nextRowNode
-                                {
-                                    if (prev.nextRow.next != null)//if the deleting RowNode has nextNode
-                                    {
-                                        prev.nextRow.info = prev.nextRow.next.info;
-                                        prev.nextRow.next = prev.nextRow.next.next;
-                                    }
-                                    else //deleting RowNode doesn't have nextNode
-                                    {
-                                        prev.nextRow = prev.nextRow.nextRow;
-                                    }
-                                }
-                                else // Deleting node is nextNode
-                                {
-                                    prev.next = prev.next.next;
-                                }
-                            }
-                            else //Prev is usual node
-                            {
-                                pre.next = pre.next.next;
-                            }
-                            return true;
-                        }
-                        else // master doesn't exist
-                        {
-                            return false;
-                        }
-                    }
-                }
-                else // We have just one master 
-                {
-                    Universal.instance.firstMst = Universal.instance.lastMst = null;
-                    return true;
-                }
-            }
-            else
-            {
-                //Showing Error that the insterted id is wrong or threre is no master added
-                return false;
-            }
-            //End of Method
         }
-        public bool RemoveManagerFully(string id)
+
+
+        public bool RemoveMasterFully(int id)
         {
-            if (Universal.instance.firstMng != null && isNumber(id))// Checking whether we have manager or not
+            if (Universal.instance != null && Universal.instance.masterTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have master or not
             {
-                if (Universal.instance.firstMng.next != null || Universal.instance.firstMng.nextRow != null)//Checking if we have more than one manager 
-                {
-                    if (Convert.ToUInt64(id) == Universal.instance.firstMng.info.id)  //Means that we wanna delete the first manager
-                    {
-                        RowNode<Manager> newfirstRowNode = new RowNode<Manager>();
-                        newfirstRowNode.info = Universal.instance.firstMng.next.info;
-                        newfirstRowNode.next = Universal.instance.firstMng.next.next;
-                        newfirstRowNode.nextRow = Universal.instance.firstMng.nextRow;
-                        Universal.instance.firstMng = newfirstRowNode;
-                        return true;
-                    }
-                    else if (Convert.ToUInt64(id) == Universal.instance.lastMng.info.id)//Means that we wanna delete the last manager
-                    {
-                        RowNode<Manager> newlastRowNode = new RowNode<Manager>();
-                        if (Universal.instance.lastMng.next != null) // Checking if we have convertable node to RowNode
-                        {
-                            newlastRowNode.info = Universal.instance.lastMng.next.info;
-                            newlastRowNode.next = Universal.instance.lastMng.next.next;
-                            Universal.instance.lastMng = newlastRowNode;
-                            return true;
-                        }
-                        else // Here we don't have convertable node to RowNode
-                        {
-                            RowNode<Manager> lastMng = Universal.instance.firstMng;
-                            while (lastMng.nextRow != null && lastMng.nextRow.nextRow != null)
-                            {
-                                lastMng = lastMng.nextRow;
-                            }
-                            Universal.instance.lastMng = lastMng;
-                            return true;
-                        }
-                    }
-                    else // Here we want to delete the masters in which there are at the Middle Nodes
-                    {
-                        Node<Manager> pre;
-                        pre = SearchPrevManager(id);
-                        if (pre != null) //if the master exists
-                        {
-                            if (pre is RowNode<Manager>)//Pre is RowNode
-                            {
-                                RowNode<Manager> prev = pre as RowNode<Manager>;
-                                if (prev.nextRow.info.id == Convert.ToUInt64(id))//Deleting node is nextRowNode
-                                {
-                                    if (prev.nextRow.next != null)//if the deleting RowNode has nextNode
-                                    {
-                                        prev.nextRow.info = prev.nextRow.next.info;
-                                        prev.nextRow.next = prev.nextRow.next.next;
-                                    }
-                                    else //deleting RowNode doesn't have nextNode
-                                    {
-                                        prev.nextRow = prev.nextRow.nextRow;
-                                    }
-                                }
-                                else // Deleting node is nextNode
-                                {
-                                    prev.next = prev.next.next;
-                                }
-                            }
-                            else //Prev is usual node
-                            {
-                                pre.next = pre.next.next;
-                            }
-                            return true;
-                        }
-                        else // master doesn't exist
-                        {
-                            return false;
-                        }
-                    }
-                }
-                else // We have just one master 
-                {
-                    Universal.instance.firstMng = Universal.instance.lastMng = null;
-                    return true;
-                }
+                FileManager.Remove(Universal.instance.masterTree, new Master(), id, fileDirectoryPlusName:);//TODO
+                return true;
+                //Master deleted successfully
+            }
+
+            return false;
+        }
+        public bool RemoveManagerFully(int id)
+        {
+            if (Universal.instance != null && Universal.instance.managerTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have manager or not
+            {
+                FileManager.Remove(Universal.instance.managerTree, new Manager(), id, fileDirectoryPlusName:);//TODO
+                return true;
+                //Master deleted successfully
             }
             else
             {
@@ -455,29 +292,18 @@ namespace UniversityClasses
             Universal.instance.isAbleUnitChoice = false;
             //End of Method
         }
-        public static bool isNumber(string id)
-        {
-            for (int i = 0; i < id.Length; i++)
-            {
-                if (id[i] < 48 || id[i] > 57)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+      
         public bool isValidName(string name)
         {
             if (name == "") return false;
             return true;
         }
-        public bool RemoveStudentsSemester(String id)
+        public bool RemoveStudentsSemester(int id)
         {
-            Node<Student> std;
-            std = SearchStudent(id);
+            Student std = SearchStudent(id);
             if (std != null)
             {
-                std.info.choosenLessons.Clear();
+                std.choosenLessons.Clear();
                 return true;
             }
             return false;
@@ -485,30 +311,23 @@ namespace UniversityClasses
         }
         public void EndingSemester()
         {
-            RowNode<Student> pstd = Universal.instance.firstStd;
-            Node<Student> std = pstd;
-            while (pstd != null)
+            for (int index = 0; ; index++)
+
             {
-              
-                if (std.info.choosenLessons != null && std.info.choosenLessons.Count != 0)
+                Student std = new Student();
+                bool Readable = false;
+                FileManager.Load(Universal.instance.studentTree, std, out Readable, fileDirectoryPlusName:"", index:index);//TODO
+                if (!Readable)
+                    break;
+                for (int i = 0; i < std.choosenLessons.Count; i++)
                 {
-                    while (std != null)
+                    if (std.choosenLessons[i].grade > 10)
                     {
-
-                        for (int i = 0; i < std.info.choosenLessons.Count; i++)
-                        {
-                            if (std.info.choosenLessons[i].grade > 10)
-                            {
-                                std.info.passedLessons = std.info.passedLessons == null ? new List<StudentCourse>() : std.info.passedLessons;
-                                std.info.passedLessons.Add(std.info.choosenLessons[i]);
-                            }
-                        }
-                        std.info.choosenLessons.Clear();
-                        std = std.next;
-
+                        std.passedLessons = std.passedLessons == null ? new List<StudentCourse>() : std.passedLessons;
+                        std.passedLessons.Add(std.choosenLessons[i]);
                     }
                 }
-                pstd = pstd.nextRow;
+                std.choosenLessons.Clear();
             }
             //End of Method
         }

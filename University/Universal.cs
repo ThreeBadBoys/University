@@ -1,6 +1,6 @@
 ﻿﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using University;
 namespace UniversityClasses
 {
     [System.Serializable]
@@ -29,8 +29,9 @@ namespace UniversityClasses
                         mngTree.put(manager.id, 0);
                         instance.managerTree = mngTree;
                         bf.Serialize(mngTreeFile, mngTree);
-                                                                                                                                                    // FileStream newFile = File.Create("mng\\" + manager.id);
-                                                                                                                                                    // BinaryFormatter newbf = new BinaryFormatter();
+                        FileManager.Add<Manager>(mngTree, new Manager(), fileDirectoryPlusName:);//TODO
+                                                                                                                                   // FileStream newFile = File.Create("mng\\" + manager.id);
+                                                                                                                                                        // BinaryFormatter newbf = new BinaryFormatter();
                                                                                                                                                     //bf.Serialize(newFile, manager);
                                                                                                                                                     // newFile.Close();
                         mngTreeFile.Close();

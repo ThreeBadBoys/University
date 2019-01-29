@@ -19,7 +19,7 @@ namespace UniversityClasses
         {
             get; set;
         }
-        public ulong id
+        public int id
         {
 
             get; set;
@@ -44,7 +44,7 @@ namespace UniversityClasses
             this.lastName = lastName;
             this.lessons = lessons;
             
-            ulong lastMasterID;
+            int lastMasterID;
 
             if (Universal.instance.masterTree != null)
             {
@@ -54,11 +54,11 @@ namespace UniversityClasses
                     try
                     {
                         FileStream file = File.Open(lastMasterAddress, FileMode.Open);
-                        lastMasterID = UInt64.Parse(lastMasterAddress.Substring(4)) + 1;
+                        lastMasterID = Int32.Parse(lastMasterAddress.Substring(4)) + 1;
                     }
                     catch
                     {
-                        lastMasterID = UInt64.Parse(lastMasterAddress.Substring(4));
+                        lastMasterID = Int32.Parse(lastMasterAddress.Substring(4));
                     }
                 }
                 else

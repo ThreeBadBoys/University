@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using University;
 
 namespace UniversityClasses
 {
@@ -17,7 +19,7 @@ namespace UniversityClasses
         {
             get; set;
         }
-        public ulong id
+        public int id
         {
             get; set;
         }
@@ -37,20 +39,36 @@ namespace UniversityClasses
         {
 
         }
-
-
+      
         public Student(string firstName, string lastName, string major)
         {
             this.firstName = firstName;
             this.lastName = lastName;
             this.major = major;
-            Node lastStudentRow = Universal.instance.lastStd;
-            Node lastStudent = lastStudentRow;
-          
-            this.id = Universal.instance.firstStd == null ? 97000000000 : lastStudent.info.id + 1;
+             int lastManagerID;
+            //Node lastStudentRow = Universal.instance.lastStd;
+            //Node lastStudent = lastStudentRow;
 
-            this.password = lastStudent == null ? "9700" : (lastStudent.info.id + 1).ToString();
+            //this.id = Universal.instance.firstStd == null ? 97000000000 : lastStudent.info.id + 1;
 
+         
+            if (Universal.instance.studentTree != null)
+            {
+                Student newStd = new Student();
+                int lastStudentIndex = Universal.instance.studentTree.getLast();
+                FileManager.Load(Universal.instance.studentTree, newStd, lastStudentIndex, fileDirectoryPlusName:);//TODO
+
+                if (lastStudentIndex != -1)
+                {
+                    this.id = newStd.id + 1;
+                    this.password = String.Format("%d", this.id);
+                }
+                else
+                {
+                    this.id = 97000;
+                    this.password = String.Format("%d", this.id);
+                }
+            }
 
         }
 
@@ -127,7 +145,7 @@ namespace UniversityClasses
             }
             if ((isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit) && crsFound && choosenLessons.Contains(lsn))
             {
-                plsn.info.students.Remove(Manager.SearchStudent(this.id.ToString()));
+                plsn.info.students.Remove(Manager.SearchStudent(this.id);
                 choosenLessons.Remove(lsn);
                 return true;
             }
