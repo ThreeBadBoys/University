@@ -7,7 +7,7 @@ namespace UniversityClasses
     class Universal
     {
         public static Universal instance;
-        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
+        //const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
         /**
          * Initializes main file and BTrees.
          */
@@ -16,9 +16,9 @@ namespace UniversityClasses
             if (instance == null)
             {
                 instance = this;
-                if (!File.Exists(dir + "mngFile"))
+                if (!File.Exists("mngFile"))
                 {
-                    FileStream mngFile = File.Create(dir + "mngFile");
+                    FileStream mngFile = File.Create("mngFile");
                     mngFile.Close();
                 }
                 if (File.Exists("mngTree"))
@@ -34,11 +34,7 @@ namespace UniversityClasses
                         mngTree.put(manager.id, 0);
                         instance.managerTree = mngTree;
                         bf.Serialize(mngTreeFile, mngTree);
-                        FileManager.Add<Manager>(mngTree, new Manager(),manager.id, fileDirectoryPlusName: dir + "mngFile");
-                                                                                                                                   // FileStream newFile = File.Create("mng\\" + manager.id);
-                                                                                                                                                        // BinaryFormatter newbf = new BinaryFormatter();
-                                                                                                                                                    //bf.Serialize(newFile, manager);
-                                                                                                                                                    // newFile.Close();
+                        FileManager.Add<Manager>(mngTree, new Manager(), manager.id, "mngFile");                                                                                                                     // newFile.Close();
                         mngTreeFile.Close();
                     }
                     else
@@ -58,7 +54,7 @@ namespace UniversityClasses
                     FileStream mngTreeFile = File.Create("mngTree");
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(mngTreeFile, mngTree);
-                    FileManager.Add<Manager>(mngTree, new Manager(), manager.id, fileDirectoryPlusName: dir + "mngFile");                                                                                                                            //FileStream newFile = File.Create("mng\\" + manager.id);
+                    FileManager.Add<Manager>(mngTree, new Manager(), manager.id, "mngFile");                                                                                                                            //FileStream newFile = File.Create("mng\\" + manager.id);
                                                                                                                                                                                                                                                      //BinaryFormatter newbf = new BinaryFormatter();
                                                                                                                                                                                                                                                      //bf.Serialize(newFile, manager);
                                                                                                                                                                                                                                                      //newFile.Close();

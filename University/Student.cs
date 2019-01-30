@@ -7,7 +7,7 @@ namespace UniversityClasses
     [System.Serializable]
     class Student
     {
-        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
+        //const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
         char[] FirstName = new char[20];
         public string firstName
         {
@@ -141,7 +141,7 @@ namespace UniversityClasses
             {
                 int lastStudentIndex = Universal.instance.studentTree.isEmpty() ? -1 : Universal.instance.studentTree.getLast();
                 bool Readable;
-                Student newStd = (Student) FileManager.Load(Universal.instance.studentTree, new Student(), out Readable, fileDirectoryPlusName: dir + "stdFile", index:lastStudentIndex);
+                Student newStd = (Student) FileManager.Load(Universal.instance.studentTree, new Student(), out Readable, fileDirectoryPlusName: "stdFile", index:lastStudentIndex);
 
                 if (lastStudentIndex != -1)
                 {
@@ -174,7 +174,7 @@ namespace UniversityClasses
                 else
                 {
                     this.password = newPassword;
-                    FileManager.SaveEdited(Universal.instance.studentTree, this, this.id, fileDirectoryPlusName: dir + "stdFile");
+                    FileManager.SaveEdited(Universal.instance.studentTree, this, this.id, "stdFile");
                     return 2;
                 }
             }
@@ -186,7 +186,7 @@ namespace UniversityClasses
             if (isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit)
             {
                 Course crs = new Course();
-                crs = (Course) FileManager.Load(Universal.instance.courseTree, crs, code, fileDirectoryPlusName: dir + "crsFile");
+                crs = (Course) FileManager.Load(Universal.instance.courseTree, crs, code, "crsFile");
 
                 if (choosenLessons != null)
                 {
@@ -220,7 +220,7 @@ namespace UniversityClasses
             int index = Universal.instance.courseTree.get(code);
             if (index != -1) {
                 Course crs = new Course();
-                FileManager.Load(Universal.instance.courseTree, crs, code, fileDirectoryPlusName: dir + "crsFile");
+                FileManager.Load(Universal.instance.courseTree, crs, code, "crsFile");
                 crsFound = true;
                 lsn = new StudentCourse(crs);
 
