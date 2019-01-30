@@ -13,7 +13,7 @@ namespace UniversityClasses
     [System.Serializable]
     class Manager
     {
-        const string dir = "";
+        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
         char[] FirstName = new char[20];
         public string firstName
         {
