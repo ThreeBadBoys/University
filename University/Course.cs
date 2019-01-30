@@ -5,32 +5,90 @@ namespace UniversityClasses
     [System.Serializable]
     class Course
     {
+        public int code;
+        public Master master = new Master();
+        public int val;
+
+        char[] Name = new char[20];
         public string name
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < Name.Length; i++)
+                {
+                    if (Name[i] != '\0')
+                        temp += Name[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    Name[i] = value[i];
+                }
+                Name[i] = '\0';
+            }
         }
-        public int code
-        {
-            get; set;
-        }
-        public Master master;
+
+        char[] Time = new char[20];
         public string time
         {
-            get; set;
-
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < Time.Length; i++)
+                {
+                    if (Time[i] != '\0')
+                        temp += Time[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    Time[i] = value[i];
+                }
+                Time[i] = '\0';
+            }
         }
+
+        char[] ExamTime = new char[20];
         public string examTime
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < ExamTime.Length; i++)
+                {
+                    if (ExamTime[i] != '\0')
+                        temp += ExamTime[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    ExamTime[i] = value[i];
+                }
+                ExamTime[i] = '\0';
+            }
         }
-        public int val
-        {
-            get; set;
-        }
-        public List<Student> students
-        {
-            get; set;
-        }
+
+        public List<Student> students = new List<Student>(45);
+
         public Course(string name, int code, int val, string time, string examTime, Master master)
         {
             this.name = name;
@@ -39,11 +97,13 @@ namespace UniversityClasses
             this.time = time;
             this.examTime = examTime;
             this.master = master;
-            students = new List<Student>();
         }
 
         public Course()
         {
+            this.name = "";
+            this.time = "";
+            this.examTime = "";
         }
     }
 }

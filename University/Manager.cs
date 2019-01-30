@@ -13,50 +13,105 @@ namespace UniversityClasses
     [System.Serializable]
     class Manager
     {
-        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
+        const string dir = "";
+        char[] FirstName = new char[20];
         public string firstName
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < FirstName.Length; i++)
+                {
+                    if (FirstName[i] != '\0')
+                        temp += FirstName[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    FirstName[i] = value[i];
+                }
+                FirstName[i] = '\0';
+            }
         }
+
+        char[] LastName = new char[20];
         public string lastName
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < LastName.Length; i++)
+                {
+                    if (LastName[i] != '\0')
+                        temp += LastName[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    LastName[i] = value[i];
+                }
+                LastName[i] = '\0';
+            }
         }
+
+        char[] Password = new char[20];
         public string password
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < Password.Length; i++)
+                {
+                    if (Password[i] != '\0')
+                        temp += Password[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    Password[i] = value[i];
+                }
+                Password[i] = '\0';
+            }
         }
-        public int id
-        {
-            get; set;
-        }
+
+        public int id;
         //-----------------------------------------
         //Constructors
         public Manager(string firstName, string lastName, string password)
         {
             this.firstName = firstName;
             this.lastName = lastName;
-         
-        
+            this.password = password;
+
             if (Universal.instance.managerTree != null)
             {
-                Manager newMng = new Manager();
-                int lastManagerIndex = Universal.instance.managerTree.getLast();
-                FileManager.Load(Universal.instance.managerTree, newMng, lastManagerIndex, fileDirectoryPlusName:dir + "mngFile");
-                
-                if (lastManagerIndex != -1)
-                {
-                    this.id = newMng.id + 1;
-                    this.password = String.Format("%d", this.id);
-                }
-                else
-                {
-                    this.id = 97000;
-                    this.password = String.Format("%d", this.id);
-                }
-            }
-         
+                int lastManagerIndex = Universal.instance.managerTree.isEmpty() ? -1 : Universal.instance.managerTree.getLast();
+                bool Readable;
+                Manager newMng = (Manager)FileManager.Load(Universal.instance.managerTree, new Manager(), out Readable, fileDirectoryPlusName: dir + "mngFile", index: lastManagerIndex);
 
+                if (lastManagerIndex != -1)
+                    this.id = newMng.id + 1;
+                else
+                    this.id = 97000;
+            }
         }
         public Manager()
         {
@@ -84,6 +139,7 @@ namespace UniversityClasses
                 else
                 {
                     this.password = newPassword;
+                    FileManager.SaveEdited(Universal.instance.managerTree, this, this.id, fileDirectoryPlusName: dir + "mngFile");
                     return 2;
                 }
             }
@@ -227,8 +283,7 @@ namespace UniversityClasses
         }
         public static Master SearchMaster(int id)
         {
-            Master master = new Master();
-            FileManager.Load(Universal.instance.masterTree, master, id, fileDirectoryPlusName:dir + "mstFile");
+            Master master = (Master) FileManager.Load(Universal.instance.masterTree, new Master(), id, fileDirectoryPlusName:dir + "mstFile");
             return master;
             //End of Method
         }
@@ -244,10 +299,9 @@ namespace UniversityClasses
          */
         public bool RemoveStudentFully(int id)
         {                                                                               //CHECK IT\|/
-            if (Universal.instance != null && Universal.instance.studentTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have student or not
+            if (Universal.instance != null && Universal.instance.studentTree != null)// Checking whether we have student or not
             {
-                FileManager.Remove(Universal.instance.studentTree, new Student(), id, fileDirectoryPlusName:dir + "stdFile");
-                return true;
+                return FileManager.Remove(Universal.instance.studentTree, new Student(), id, fileDirectoryPlusName:dir + "stdFile");
                 //Student deleted successfully
             }
             else
@@ -263,8 +317,7 @@ namespace UniversityClasses
         {
             if (Universal.instance != null && Universal.instance.masterTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have master or not
             {
-                FileManager.Remove(Universal.instance.masterTree, new Master(), id, fileDirectoryPlusName: "mstFile");
-                return true;
+                return FileManager.Remove(Universal.instance.masterTree, new Master(), id, fileDirectoryPlusName: "mstFile");
                 //Master deleted successfully
             }
 
@@ -274,8 +327,7 @@ namespace UniversityClasses
         {
             if (Universal.instance != null && Universal.instance.managerTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have manager or not
             {
-                FileManager.Remove(Universal.instance.managerTree, new Manager(), id, fileDirectoryPlusName: "mngFile");
-                return true;
+                return FileManager.Remove(Universal.instance.managerTree, new Manager(), id, fileDirectoryPlusName: "mngFile");
                 //Master deleted successfully
             }
             else
@@ -319,7 +371,7 @@ namespace UniversityClasses
             {
                 Student std = new Student();
                 bool Readable = false;
-                FileManager.Load(Universal.instance.studentTree, std, out Readable, fileDirectoryPlusName:dir + "stdFile", index:index);
+                std = (Student) FileManager.Load(Universal.instance.studentTree, std, out Readable, fileDirectoryPlusName:dir + "stdFile", index:index);
                 if (!Readable)
                     break;
                 for (int i = 0; i < std.choosenLessons.Count; i++)

@@ -7,7 +7,7 @@ namespace UniversityClasses
     class Universal
     {
         public static Universal instance;
-        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
+        const string dir = "";
         /**
          * Initializes main file and BTrees.
          */

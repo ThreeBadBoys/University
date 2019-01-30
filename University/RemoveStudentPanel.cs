@@ -21,7 +21,7 @@ namespace University
         {
             this.id = id;
             InitializeComponent();
-            Manager mng = Manager.SearchManager(id);
+            mng = Manager.SearchManager(id);
         
         }
 
@@ -36,6 +36,7 @@ namespace University
         {
             if (mng.RemoveStudentFully(Int32.Parse(std_id.Text)))
             {
+
                 //FileStream file = File.Create("Uni");
                 //BinaryFormatter bf = new BinaryFormatter();
                 //bf.Serialize(file, Universal.instance);

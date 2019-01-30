@@ -12,8 +12,13 @@ namespace University
         public static void Add<T>(BTree whichTree, object objectToAdd, int objectToAddID, string fileDirectoryPlusName)
         {
             byte[] objectArray = ObjectToByteArray(objectToAdd);
+            int tempindex;
+            if (whichTree.isEmpty() || whichTree.getLast() == 0)
+                tempindex = -1;
+            else
+                tempindex = whichTree.get(whichTree.getLast());
             // Get a handle to an existing memory mapped file
-            using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open, "mmf", objectArray.Length))
+            using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open, "mmf", (tempindex + 2) * objectArray.Length))
             {
                 // Create a view accessor from which to read the data
                 using (MemoryMappedViewAccessor mmfReader = mmf.CreateViewAccessor())
@@ -44,14 +49,14 @@ namespace University
             int index = whichTree.get(objectToRemoveID);
             if (index != -1)
             {
-                byte[] buffer = ObjectToByteArray(null);
                 byte[] objectArray = ObjectToByteArray(objectTempToRemove);
-
+                byte[] buffer = new byte[objectArray.Length];
+                
                 using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open))
                 {
-                    using (MemoryMappedViewAccessor mmfWriter = mmf.CreateViewAccessor(index * objectArray.Length, buffer.Length))
+                    using (MemoryMappedViewAccessor mmfWriter = mmf.CreateViewAccessor())
                     {
-                        mmfWriter.WriteArray<byte>(index * objectArray.Length, buffer, 0, buffer.Length);
+                        mmfWriter.WriteArray<byte>(index * buffer.Length, buffer, 0, buffer.Length);
                     }
                 }
                 whichTree.delete(objectToRemoveID);

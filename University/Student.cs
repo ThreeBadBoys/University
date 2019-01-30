@@ -6,23 +6,124 @@ namespace UniversityClasses
 {
     [System.Serializable]
     class Student
-    {const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
-        public string firstName;
-        public string lastName;
-        public string password;
+    {
+        const string dir = "";
+        char[] FirstName = new char[20];
+        public string firstName
+        {
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < FirstName.Length; i++)
+                {
+                    if (FirstName[i] != '\0')
+                        temp += FirstName[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    FirstName[i] = value[i];
+                }
+                FirstName[i] = '\0';
+            }
+        }
+
+        char[] LastName = new char[20];
+        public string lastName
+        {
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < LastName.Length; i++)
+                {
+                    if (LastName[i] != '\0')
+                        temp += LastName[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    LastName[i] = value[i];
+                }
+                LastName[i] = '\0';
+            }
+        }
+
+        char[] Password = new char[20];
+        public string password
+        {
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < Password.Length; i++)
+                {
+                    if (Password[i] != '\0')
+                        temp += Password[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    Password[i] = value[i];
+                }
+                Password[i] = '\0';
+            }
+        }
         public int id;
-        public string major;
+
+        char[] Major = new char[20];
+        public string major
+        {
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < Major.Length; i++)
+                {
+                    if (Major[i] != '\0')
+                        temp += Major[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    Major[i] = value[i];
+                }
+                Major[i] = '\0';
+            }
+        }
+
         public double grade;
         public bool isAbleUnitChoice = false;
         public bool isAbleUnitEdit = false;
-        public List<StudentCourse> choosenLessons;
-        public List<StudentCourse> passedLessons;
+        public List<StudentCourse> choosenLessons = new List<StudentCourse>(10);
+        public List<StudentCourse> passedLessons = new List<StudentCourse>(10);
         public Student()
         {
-            firstName = "Fuck";
-            lastName = "Fuck";
-            password = "Fuck";
-            major = "Fuck";
+            firstName = "";
+            lastName = "";
+            password = "";
+            major = "";
     }
 
         public Student(string firstName, string lastName, string major)
@@ -38,10 +139,9 @@ namespace UniversityClasses
 
             if (Universal.instance.studentTree != null)
             {
-                Student newStd = new Student();
                 int lastStudentIndex = Universal.instance.studentTree.isEmpty() ? -1 : Universal.instance.studentTree.getLast();
                 bool Readable;
-                FileManager.Load(Universal.instance.studentTree, newStd, out Readable, fileDirectoryPlusName: dir + "stdFile", index:lastStudentIndex);
+                Student newStd = (Student) FileManager.Load(Universal.instance.studentTree, new Student(), out Readable, fileDirectoryPlusName: dir + "stdFile", index:lastStudentIndex);
 
                 if (lastStudentIndex != -1)
                 {
@@ -74,6 +174,7 @@ namespace UniversityClasses
                 else
                 {
                     this.password = newPassword;
+                    FileManager.SaveEdited(Universal.instance.studentTree, this, this.id, fileDirectoryPlusName: dir + "stdFile");
                     return 2;
                 }
             }
@@ -85,7 +186,7 @@ namespace UniversityClasses
             if (isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit)
             {
                 Course crs = new Course();
-                FileManager.Load(Universal.instance.courseTree, crs, code, fileDirectoryPlusName: dir + "crsFile");
+                crs = (Course) FileManager.Load(Universal.instance.courseTree, crs, code, fileDirectoryPlusName: dir + "crsFile");
 
                 if (choosenLessons != null)
                 {

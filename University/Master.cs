@@ -1,66 +1,127 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using University;
+
 namespace UniversityClasses
 {
     [System.Serializable]
     class Master
     {
-        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
+        const string dir = "";
+        char[] FirstName = new char[20];
         public string firstName
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < FirstName.Length; i++)
+                {
+                    if (FirstName[i] != '\0')
+                        temp += FirstName[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    FirstName[i] = value[i];
+                }
+                FirstName[i] = '\0';
+            }
         }
+
+        char[] LastName = new char[20];
         public string lastName
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < LastName.Length; i++)
+                {
+                    if (LastName[i] != '\0')
+                        temp += LastName[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    LastName[i] = value[i];
+                }
+                LastName[i] = '\0';
+            }
         }
-        public int id
-        {
 
-            get; set;
-        }
+        char[] Password = new char[20];
         public string password
         {
-            get; set;
+            get
+            {
+                string temp = "";
+                for (int i = 0; i < Password.Length; i++)
+                {
+                    if (Password[i] != '\0')
+                        temp += Password[i];
+                    else
+                        break;
+                }
+                return temp;
+            }
+            set
+            {
+                int i;
+                for (i = 0; i < value.Length; i++)
+                {
+                    Password[i] = value[i];
+                }
+                Password[i] = '\0';
+            }
         }
-        public List<Course> lessons
-        {
-            get; set;
-        }
+
+        public int id;
+
+        public List<Course> lessons = new List<Course>(10);
         //-------------------------------
         public Master()
         {
-
+            this.firstName = "";
+            this.lastName = "";
+            this.password = "";
         }
 
         public Master(string firstName, string lastName, List<Course> lessons)
         {
             this.firstName = firstName;
             this.lastName = lastName;
-            this.lessons = lessons;
+            for (int i = 0; i < lessons.Count; i++)
+            {
+                this.lessons[i] = lessons[i];
+            }
          
 
             if (Universal.instance.masterTree != null)
             {
-                Master newStd = new Master();
-                int lastMasterIndex = Universal.instance.masterTree.getLast();
-                FileManager.Load(Universal.instance.masterTree, newStd, lastMasterIndex, fileDirectoryPlusName:dir + "mstFile");
+                int lastMasterIndex = Universal.instance.masterTree.isEmpty() ? -1 : Universal.instance.masterTree.getLast();
+                bool Readable;
+                Master newMst = (Master)FileManager.Load(Universal.instance.masterTree, new Master(), out Readable, fileDirectoryPlusName: dir + "mstFile", index: lastMasterIndex);
 
                 if (lastMasterIndex != -1)
                 {
-                    this.id = newStd.id + 1;
-                    this.password = String.Format("%d", this.id);
+                    this.id = newMst.id + 1;
+                    this.password = String.Format("{0}", this.id);
                 }
                 else
                 {
                     this.id = 97000;
-                    this.password = String.Format("%d", this.id);
+                    this.password = String.Format("{0}", this.id);
                 }
             }
 
@@ -82,6 +143,7 @@ namespace UniversityClasses
                 else
                 {
                     this.password = newPassword;
+                    FileManager.SaveEdited(Universal.instance.masterTree, this, this.id, fileDirectoryPlusName: dir + "mstFile");
                     return 2;
                 }
             }
