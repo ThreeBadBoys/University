@@ -16,7 +16,7 @@ namespace University
 
         public EnterPage()
         {
-            Universal u;
+            Universal u = new Universal();
          
 
             InitializeComponent();
@@ -24,16 +24,16 @@ namespace University
             LogInType.SelectedItem = "دانشجو";
 
 
-            Master mst = Universal.instance.firstMst;
-            //Console.WriteLine(mst.info.lessons[0].info.students.Count);
+            //Master mst = Universal.instance.firstMst;
+            ////Console.WriteLine(mst.info.lessons[0].info.students.Count);
         }
         private void btn_enter_Click(object sender, EventArgs e)
         {
             if (this.LogInType.GetItemText(this.LogInType.SelectedItem) == "دانشجو")
             {
-                if (authentication(0, username_id.Text, password1.Text))
+                if (authentication(0, Int32.Parse(username_id.Text), password1.Text))
                 {
-                    StudentPanel studentPanel = new StudentPanel(Int32.Parse((username_id.Text));
+                    StudentPanel studentPanel = new StudentPanel(Int32.Parse((username_id.Text)));
                     studentPanel.Show();
                     this.Hide();
                 }
@@ -41,9 +41,9 @@ namespace University
             }
             else if (this.LogInType.GetItemText(this.LogInType.SelectedItem) == "استاد")
             {
-                if (authentication(1, username_id.Text, password1.Text))
+                if (authentication(1, Int32.Parse(username_id.Text), password1.Text))
                 {
-                    MasterPanel teacherPanel = new MasterPanel(Int32.Parse(username_id.Text);
+                    MasterPanel teacherPanel = new MasterPanel(Int32.Parse(username_id.Text));
                     teacherPanel.Show();
                     this.Hide();
                 }
@@ -51,7 +51,7 @@ namespace University
             }
             else if (this.LogInType.GetItemText(LogInType.SelectedItem) == "آموزش")
             {
-                if (authentication(2, username_id.Text, password1.Text))
+                if (authentication(2, Int32.Parse(username_id.Text), password1.Text))
                 {
                     ManagerPanel amoozesh = new ManagerPanel(Int32.Parse(username_id.Text));
                     amoozesh.Show();
@@ -66,11 +66,11 @@ namespace University
             {
                 if (type == 0)//"دانشجو"
                 {
-                    Node<Student> std = new Node<Student>();
-                    std = Manager.SearchStudent(id);
+            
+                   Student std = Manager.SearchStudent(id);
                     if (std != null)
                     {
-                        if (std.info.password.Equals(password))
+                        if (std.password.Equals(password))
                         {
                             return true;
                         }
@@ -87,11 +87,11 @@ namespace University
                 }
                 else if (type == 1)//"استاد"
                 {
-                    Node<Master> master = new Node<Master>();
+                    Master master = Manager.SearchMaster(id);
                     if (master != null)
                     {
                         master = Manager.SearchMaster(id);
-                        if (master.info.password.Equals(password))
+                        if (master.password.Equals(password))
                         {
                             return true;
                         }
@@ -109,10 +109,10 @@ namespace University
                 }
                 else//"آموزش"
                 {
-                    Node<Manager> mng = Manager.SearchManager(id);
+                    Manager mng = Manager.SearchManager(id);
                     if (mng != null)
                     {
-                        if (mng.info.password.Equals(password))
+                        if (mng.password.Equals(password))
                         {
                             return true;
                         }

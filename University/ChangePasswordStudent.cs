@@ -37,10 +37,10 @@ namespace University
         {
             if (std.EditPassword(currentpassword1.Text, newpassword1.Text, confirmpassword1.Text) == 2)
             {
-                FileStream file = File.Create("Uni");
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, Universal.instance);
-                file.Close();
+                //FileStream file = File.Create("Uni");
+                //BinaryFormatter bf = new BinaryFormatter();
+                //bf.Serialize(file, Universal.instance);
+                //file.Close();
                 StudentPanel studentPanel = new StudentPanel(id);
                 studentPanel.Show();
                 this.Hide();

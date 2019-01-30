@@ -22,10 +22,10 @@ namespace University
         {
             if (std.addLesson(Convert.ToInt32(textBox1.Text)))
             {
-                FileStream file = File.Create("Uni");
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, Universal.instance);
-                file.Close();
+                //FileStream file = File.Create("Uni");
+                //BinaryFormatter bf = new BinaryFormatter();
+                //bf.Serialize(file, Universal.instance);
+                //file.Close();
                 this.Hide();
             }
         }

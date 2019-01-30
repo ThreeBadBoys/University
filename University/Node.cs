@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace UniversityClasses
 {
     // helper B-tree node data type
+    [Serializable]
     public class Node
     {
         public int m;                                   // number of children

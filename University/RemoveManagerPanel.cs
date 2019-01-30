@@ -37,10 +37,10 @@ namespace University
             {
                 if (mng.RemoveManagerFully(Int32.Parse(textBox1.Text)))
                 {
-                    FileStream file = File.Create("Uni");
-                    BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(file, Universal.instance);
-                    file.Close();
+                    //FileStream file = File.Create("Uni");
+                    //BinaryFormatter bf = new BinaryFormatter();
+                    //bf.Serialize(file, Universal.instance);
+                    //file.Close();
                     ManagerPanel managerpanel = new ManagerPanel(id);
                     managerpanel.Show();
                     this.Hide();

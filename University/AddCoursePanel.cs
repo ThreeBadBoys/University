@@ -28,10 +28,10 @@ namespace University
         {
             if(mng.AddCourse(Int32.Parse(code.Text), name.Text, Int32.Parse(masterCode.Text), time.Text, examTime.Text, Convert.ToInt32(val.Text)))
             {
-                FileStream file = File.Create("Uni");
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, Universal.instance);
-                file.Close();
+                //FileStream file = File.Create("Uni");
+                //BinaryFormatter bf = new BinaryFormatter();
+                //bf.Serialize(file, Universal.instance);
+                //file.Close();
                 this.Hide();
             }
         }

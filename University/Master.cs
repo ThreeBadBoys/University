@@ -11,6 +11,7 @@ namespace UniversityClasses
     [System.Serializable]
     class Master
     {
+        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
         public string firstName
         {
             get; set;
@@ -49,7 +50,7 @@ namespace UniversityClasses
             {
                 Master newStd = new Master();
                 int lastMasterIndex = Universal.instance.masterTree.getLast();
-                FileManager.Load(Universal.instance.masterTree, newStd, lastMasterIndex, fileDirectoryPlusName:);//TODO
+                FileManager.Load(Universal.instance.masterTree, newStd, lastMasterIndex, fileDirectoryPlusName:dir + "mstFile");
 
                 if (lastMasterIndex != -1)
                 {

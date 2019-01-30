@@ -41,5 +41,9 @@ namespace UniversityClasses
             this.master = master;
             students = new List<Student>();
         }
+
+        public Course()
+        {
+        }
     }
 }

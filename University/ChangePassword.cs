@@ -35,10 +35,10 @@ namespace University
         {
             if(mng.EditPassword(currentpassword.Text, newpassword.Text, confirmpassword.Text)==2)
             {
-                FileStream file = File.Create("Uni");
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, Universal.instance);
-                file.Close();
+                //FileStream file = File.Create("Uni");
+                //BinaryFormatter bf = new BinaryFormatter();
+                //bf.Serialize(file, Universal.instance);
+                //file.Close();
                 ManagerPanel managerpanel = new ManagerPanel(id);
                 managerpanel.Show();
                 this.Hide();

@@ -34,10 +34,10 @@ namespace University
         private void btn_std_signup_Click(object sender, EventArgs e)
         {
             mng.SignUpStudent(std_first_name.Text, std_last_name.Text, std_major.Text);
-            FileStream file = File.Create("Uni");
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(file, Universal.instance);
-            file.Close();
+            //FileStream file = File.Create("Uni");
+            //BinaryFormatter bf = new BinaryFormatter();
+            //bf.Serialize(file, Universal.instance);
+            //file.Close();
             ManagerPanel managerpanel = new ManagerPanel(id);
             managerpanel.Show();
             this.Hide();

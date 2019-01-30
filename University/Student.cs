@@ -6,40 +6,25 @@ namespace UniversityClasses
 {
     [System.Serializable]
     class Student
-    {
-        public string firstName
-        {
-            get; set;
-        }
-        public string lastName
-        {
-            get; set;
-        }
-        public string password
-        {
-            get; set;
-        }
-        public int id
-        {
-            get; set;
-        }
+    {const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
+        public string firstName;
+        public string lastName;
+        public string password;
+        public int id;
         public string major;
         public double grade;
         public bool isAbleUnitChoice = false;
         public bool isAbleUnitEdit = false;
-        public List<StudentCourse> choosenLessons
-        {
-            get; set;
-        }
-        public List<StudentCourse> passedLessons
-        {
-            get; set;
-        }
+        public List<StudentCourse> choosenLessons;
+        public List<StudentCourse> passedLessons;
         public Student()
         {
+            firstName = "Fuck";
+            lastName = "Fuck";
+            password = "Fuck";
+            major = "Fuck";
+    }
 
-        }
-      
         public Student(string firstName, string lastName, string major)
         {
             this.firstName = firstName;
@@ -50,22 +35,23 @@ namespace UniversityClasses
 
             //this.id = Universal.instance.firstStd == null ? 97000000000 : lastStudent.info.id + 1;
 
-         
+
             if (Universal.instance.studentTree != null)
             {
                 Student newStd = new Student();
-                int lastStudentIndex = Universal.instance.studentTree.getLast();
-                FileManager.Load(Universal.instance.studentTree, newStd, lastStudentIndex, fileDirectoryPlusName:);//TODO
+                int lastStudentIndex = Universal.instance.studentTree.isEmpty() ? -1 : Universal.instance.studentTree.getLast();
+                bool Readable;
+                FileManager.Load(Universal.instance.studentTree, newStd, out Readable, fileDirectoryPlusName: dir + "stdFile", index:lastStudentIndex);
 
                 if (lastStudentIndex != -1)
                 {
                     this.id = newStd.id + 1;
-                    this.password = String.Format("%d", this.id);
+                    this.password = String.Format("{0}", this.id);
                 }
                 else
                 {
                     this.id = 97000;
-                    this.password = String.Format("%d", this.id);
+                    this.password = String.Format("{0}", this.id);
                 }
             }
 
@@ -98,7 +84,9 @@ namespace UniversityClasses
         {
             if (isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit)
             {
-                Node<Course> plsn = Universal.instance.firstCrs;
+                Course crs = new Course();
+                FileManager.Load(Universal.instance.courseTree, crs, code, fileDirectoryPlusName: dir + "crsFile");
+
                 if (choosenLessons != null)
                 {
                     for (int i = 0; i < choosenLessons.Count; i++)
@@ -109,46 +97,44 @@ namespace UniversityClasses
                         }
                     }
                 }
-                while (plsn != null)
+
+
+                if (crs.code == code)
                 {
-                    if (plsn.info.code == code)
-                    {
-                        plsn.info.students.Add(Manager.SearchStudent(this.id.ToString()));
-                        choosenLessons = choosenLessons == null ? new List<StudentCourse>() : choosenLessons;
-                        StudentCourse lsn = new StudentCourse(plsn.info);
-                        this.choosenLessons.Add(lsn);
-                        return true;
-                    }
-                    plsn = plsn.next;
+                    crs.students.Add(Manager.SearchStudent(id));
+                    choosenLessons = choosenLessons == null ? new List<StudentCourse>() : choosenLessons;
+                    StudentCourse lsn = new StudentCourse(crs);
+                    choosenLessons.Add(lsn);
+                    return true;
                 }
-                return false;
             }
-            else return false;
-            //End of Method
+            return false;
         }
+        //End of Method
 
         public bool removeLesson(int code)
         {
-            Node<Course> plsn = Universal.instance.firstCrs;
-            StudentCourse lsn = null;
             bool crsFound = false;
-            while (plsn != null)
-            {
-                if (plsn.info.code == code)
+            StudentCourse lsn = null;
+            int index = Universal.instance.courseTree.get(code);
+            if (index != -1) {
+                Course crs = new Course();
+                FileManager.Load(Universal.instance.courseTree, crs, code, fileDirectoryPlusName: dir + "crsFile");
+                crsFound = true;
+                lsn = new StudentCourse(crs);
+
+                if ((isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit) && crsFound && choosenLessons.Contains(lsn))
                 {
-                    crsFound = true;
-                    lsn = new StudentCourse(plsn.info);
-                    break;
+                    crs.students.Remove(Manager.SearchStudent(this.id));
+                    choosenLessons.Remove(lsn);
+                    return true;
                 }
-                plsn = plsn.next;
+                else return false;
             }
-            if ((isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit) && crsFound && choosenLessons.Contains(lsn))
+            else
             {
-                plsn.info.students.Remove(Manager.SearchStudent(this.id);
-                choosenLessons.Remove(lsn);
-                return true;
+                return false;
             }
-            else return false;
         }
     }
 }

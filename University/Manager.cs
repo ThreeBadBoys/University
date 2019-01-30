@@ -13,6 +13,7 @@ namespace UniversityClasses
     [System.Serializable]
     class Manager
     {
+        const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
         public string firstName
         {
             get; set;
@@ -41,7 +42,7 @@ namespace UniversityClasses
             {
                 Manager newMng = new Manager();
                 int lastManagerIndex = Universal.instance.managerTree.getLast();
-                FileManager.Load(Universal.instance.managerTree, newMng, lastManagerIndex, fileDirectoryPlusName:);//TODO
+                FileManager.Load(Universal.instance.managerTree, newMng, lastManagerIndex, fileDirectoryPlusName:dir + "mngFile");
                 
                 if (lastManagerIndex != -1)
                 {
@@ -61,7 +62,7 @@ namespace UniversityClasses
         {
             firstName = "admin";
             lastName = "admin";
-            password = "1234";
+            this.password = "1234";
             id = 97000;
         }
         //-----------------------------------------
@@ -110,7 +111,8 @@ namespace UniversityClasses
                 //    bf.Serialize(file, student);
                 //   file.Close();
 
-                FileManager.Add<Student>(Universal.instance.studentTree, student, student.id, fileDirectoryPlusName:);//TODO
+                FileManager.Add<Student>(Universal.instance.studentTree, student, student.id, fileDirectoryPlusName: dir + "stdFile");
+                Universal.instance.SaveTree("stdTree", Universal.instance.studentTree);
                 return true;
             }
             else
@@ -139,7 +141,8 @@ namespace UniversityClasses
                 //     BinaryFormatter bf = new BinaryFormatter();
                 //    bf.Serialize(file, master);
                 //    file.Close();
-                FileManager.Add<Master>(Universal.instance.studentTree, master, master.id, fileDirectoryPlusName:);//TODO
+                FileManager.Add<Master>(Universal.instance.masterTree, master, master.id, fileDirectoryPlusName:dir + "mstFile");
+                Universal.instance.SaveTree("mstTree", Universal.instance.masterTree);
                 return true;
             }
             else
@@ -168,7 +171,8 @@ namespace UniversityClasses
                 //   BinaryFormatter bf = new BinaryFormatter();
                 //   bf.Serialize(file, manager);
                 //   file.Close();
-                FileManager.Add<Manager>(Universal.instance.studentTree, manager, manager.id, fileDirectoryPlusName:);//TODO
+                FileManager.Add<Manager>(Universal.instance.managerTree, manager, manager.id, fileDirectoryPlusName:dir + "stdFile");
+                Universal.instance.SaveTree("mngTree", Universal.instance.managerTree);
                 return true;
             }
             else
@@ -202,7 +206,8 @@ namespace UniversityClasses
                     //  BinaryFormatter bf = new BinaryFormatter();
                     //  bf.Serialize(file, course);
                     //  file.Close();
-                    FileManager.Add<Course>(Universal.instance.studentTree, course, course.code, fileDirectoryPlusName:);//TODO
+                    FileManager.Add<Course>(Universal.instance.courseTree, course, course.code, fileDirectoryPlusName:dir+ "crsFile");
+                    Universal.instance.SaveTree("crsTree", Universal.instance.courseTree);
                     return true;
                 }
                 return false;
@@ -216,23 +221,21 @@ namespace UniversityClasses
 
         public static Student SearchStudent(int id)
         {
-            Student student = new Student();
-            FileManager.Load(Universal.instance.studentTree, student, id, fileDirectoryPlusName:);//TODO
+            Student student = (Student) FileManager.Load(Universal.instance.studentTree, new Student(), id, fileDirectoryPlusName:dir + "stdFile");
             return student;
             //End of Method
         }
         public static Master SearchMaster(int id)
         {
             Master master = new Master();
-            FileManager.Load(Universal.instance.masterTree, master, id, fileDirectoryPlusName:);//TODO
+            FileManager.Load(Universal.instance.masterTree, master, id, fileDirectoryPlusName:dir + "mstFile");
             return master;
             //End of Method
         }
         public static Manager SearchManager(int id)
         {
-            Manager manager = new Manager();
-            FileManager.Load(Universal.instance.managerTree, manager, id, fileDirectoryPlusName:);//TODO
-            return manager;
+            Manager manager = (Manager) FileManager.Load(Universal.instance.managerTree, new Manager(), id, fileDirectoryPlusName:dir + "mngFile");
+            return manager == null ? new Manager() : manager;
             //End of Method
         }
 
@@ -243,7 +246,7 @@ namespace UniversityClasses
         {                                                                               //CHECK IT\|/
             if (Universal.instance != null && Universal.instance.studentTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have student or not
             {
-                FileManager.Remove(Universal.instance.studentTree, new Student(), id, fileDirectoryPlusName:);//TODO
+                FileManager.Remove(Universal.instance.studentTree, new Student(), id, fileDirectoryPlusName:dir + "stdFile");
                 return true;
                 //Student deleted successfully
             }
@@ -260,7 +263,7 @@ namespace UniversityClasses
         {
             if (Universal.instance != null && Universal.instance.masterTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have master or not
             {
-                FileManager.Remove(Universal.instance.masterTree, new Master(), id, fileDirectoryPlusName:);//TODO
+                FileManager.Remove(Universal.instance.masterTree, new Master(), id, fileDirectoryPlusName: "mstFile");
                 return true;
                 //Master deleted successfully
             }
@@ -271,7 +274,7 @@ namespace UniversityClasses
         {
             if (Universal.instance != null && Universal.instance.managerTree != null && ((Math.Log10((int)id)) + 1) == 5)// Checking whether we have manager or not
             {
-                FileManager.Remove(Universal.instance.managerTree, new Manager(), id, fileDirectoryPlusName:);//TODO
+                FileManager.Remove(Universal.instance.managerTree, new Manager(), id, fileDirectoryPlusName: "mngFile");
                 return true;
                 //Master deleted successfully
             }
@@ -316,7 +319,7 @@ namespace UniversityClasses
             {
                 Student std = new Student();
                 bool Readable = false;
-                FileManager.Load(Universal.instance.studentTree, std, out Readable, fileDirectoryPlusName:"", index:index);//TODO
+                FileManager.Load(Universal.instance.studentTree, std, out Readable, fileDirectoryPlusName:dir + "stdFile", index:index);
                 if (!Readable)
                     break;
                 for (int i = 0; i < std.choosenLessons.Count; i++)

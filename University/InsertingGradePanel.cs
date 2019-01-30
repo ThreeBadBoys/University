@@ -79,10 +79,10 @@ namespace University
         {
             if(stdid.Text.Length!=0 && grade.Text.Length != 0 && master.insertingGrade(Int32.Parse(stdid.Text),Double.Parse(grade.Text),code))
             {
-                FileStream file = File.Create("Uni");
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(file, Universal.instance);
-                file.Close();
+                //FileStream file = File.Create("Uni");
+                //BinaryFormatter bf = new BinaryFormatter();
+                //bf.Serialize(file, Universal.instance);
+                //file.Close();
             }
         }
     }

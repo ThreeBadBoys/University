@@ -115,10 +115,10 @@ namespace University
         private void button10_Click(object sender, EventArgs e)
         {
             mng.EndingSemester();
-            FileStream file = File.Create("Uni");
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(file, Universal.instance);
-            file.Close();
+            //FileStream file = File.Create("Uni");
+            //BinaryFormatter bf = new BinaryFormatter();
+            //bf.Serialize(file, Universal.instance);
+            //file.Close();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace UniversityClasses
 {
     // internal nodes: only use key and next
     // external nodes: only use key and address
+    [Serializable]
     public class Entry
     {
         public int key;

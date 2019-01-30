@@ -49,10 +49,10 @@ namespace University
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FileStream file = File.Open("Uni", FileMode.Open);
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(file, Universal.instance);
-            file.Close();
+            //FileStream file = File.Open("Uni", FileMode.Open);
+            //BinaryFormatter bf = new BinaryFormatter();
+            //bf.Serialize(file, Universal.instance);
+            //file.Close();
             this.Hide();
         }
     }
