@@ -16,12 +16,16 @@ namespace University
     public partial class ControlerPanel : Form
     {
         int id;
+ 
         public ControlerPanel(int id)
         {
             InitializeComponent();
             this.id = id;
-            chooseUnit.Checked = Universal.instance.isAbleUnitChoice;
-            addOrRemove.Checked = Universal.instance.isAbleUnitEdit;
+          
+            
+                chooseUnit.Checked = Universal.instance.isAbleUnitChoice;
+                addOrRemove.Checked = Universal.instance.isAbleUnitEdit;
+            
         }
 
         private void controlerPanel_Closing(object sender, FormClosingEventArgs e)
@@ -32,11 +36,14 @@ namespace University
         private void addOrRemove_CheckedChanged(object sender, EventArgs e)
         {
             Universal.instance.isAbleUnitEdit = addOrRemove.Checked;
+         
         }
 
         private void chooseUnit_CheckedChanged(object sender, EventArgs e)
         {
             Universal.instance.isAbleUnitChoice = chooseUnit.Checked;
+
+
         }
 
         private void btn_back13_Click(object sender, EventArgs e)

@@ -48,10 +48,6 @@ namespace University
             dataGridView1.Columns[2].Name = "اسم درس";
             dataGridView1.Columns[3].Name = "تاریخ امتحان";
 
-            if (lessons == null)
-            {
-                lessons = new List<StudentCourse>();
-            }
             for (int i = 0; i < lessons.Count; i++)
             {
                 ArrayList row = new ArrayList();

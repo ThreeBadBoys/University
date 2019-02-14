@@ -19,11 +19,12 @@ namespace University
                 studentName.Text = std.firstName + " " + std.lastName;
 
             }
-            btn_unitChoose.Enabled = Universal.instance.isAbleUnitChoice;
-            btn_addRemove.Enabled = Universal.instance.isAbleUnitEdit;
+         
+                btn_unitChoose.Enabled = Universal.instance.isAbleUnitChoice;
+                btn_addRemove.Enabled = Universal.instance.isAbleUnitEdit;
+            }
 
-
-        }
+        
          
         private void button1_Click(object sender, EventArgs e)
         {

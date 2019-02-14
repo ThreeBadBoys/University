@@ -13,6 +13,8 @@ namespace UniversityClasses
     [System.Serializable]
     class Manager
     {
+        public bool isAbleUnitChoice = false;       //UnitChoice ability
+        public bool isAbleUnitEdit = false;         //UnitEdit ability
         const string dir = "C:\\Users\\AliNajafi\\Documents\\University\\University\\bin\\Debug\\";
         char[] FirstName = new char[20];
         public string firstName
@@ -151,22 +153,6 @@ namespace UniversityClasses
             if (isValidName(firstName) && isValidName(lastName))
             {
                 Student student = new Student(firstName.Trim(), lastName.Trim(), major);
-                //    //Now Here we have to check the Tree
-                //    if (Universal.instance.studentTree == null)
-                //     {
-                //        BTree newStudent = new BTree();
-                //        newStudent.put(student.id + "", "std\\" + student.id);
-                //        Universal.instance.studentTree = newStudent;
-                //    }
-                //   else
-                //   {
-                //       Universal.instance.studentTree.put(student.id + "", "std\\" + student.id);
-                //  }
-                //   FileStream file = File.Create("std\\" + student.id);
-                //   BinaryFormatter bf = new BinaryFormatter();
-                //    bf.Serialize(file, student);
-                //   file.Close();
-
                 FileManager.Add<Student>(Universal.instance.studentTree, student, student.id, fileDirectoryPlusName: dir + "stdFile");
                 Universal.instance.SaveTree("stdTree", Universal.instance.studentTree);
                 return true;
@@ -239,29 +225,13 @@ namespace UniversityClasses
         }
         public bool AddCourse(int code, String name, int mstId, String time, String examTime, int val)
         {
-            if (isValidName(name) && ((Math.Log10((int)code)) + 1) == 5 && (SearchMaster(mstId) != null))
+            if (isValidName(name) && ((Math.Log10(code) + 1) >= 5 && (SearchMaster(mstId) != null)))
             {
                 //We have to check if master exists
                 Master mst = SearchMaster(mstId);
                 if (mst != null)
                 {
                     Course course = new Course(name.Trim(), Convert.ToInt32(code), val, time, examTime, mst);
-                    //Now Here we have to check the Tree
-                    //   if (Universal.instance.courseTree == null)
-                    //   {
-                    //      BTree newCourse = new BTree();
-                    //      newCourse.put(course.code + "", "crs\\" + course.code);
-                    //      Universal.instance.studentTree = newCourse;
-                    //  }
-                    //  else
-                    //  {
-                    //      Universal.instance.studentTree.put(course.code + "", "crs\\" + course.code);
-                    //  }
-                    //  mst.lessons.Add(course);
-                    // FileStream file = File.Create("crs\\" + course.code);
-                    //  BinaryFormatter bf = new BinaryFormatter();
-                    //  bf.Serialize(file, course);
-                    //  file.Close();
                     FileManager.Add<Course>(Universal.instance.courseTree, course, course.code, fileDirectoryPlusName:dir+ "crsFile");
                     Universal.instance.SaveTree("crsTree", Universal.instance.courseTree);
                     return true;
@@ -339,12 +309,12 @@ namespace UniversityClasses
         }
         public void EnablingUnitChoice()
         {
-            Universal.instance.isAbleUnitChoice = true;
+           isAbleUnitChoice = true;
             //End of Method
         }
         public void DesablingUnitChoice()
         {
-            Universal.instance.isAbleUnitChoice = false;
+           isAbleUnitChoice = false;
             //End of Method
         }
       

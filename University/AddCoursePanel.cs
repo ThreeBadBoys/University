@@ -26,12 +26,13 @@ namespace University
 
         private void btn_add_course_Click(object sender, EventArgs e)
         {
-            if(mng.AddCourse(Int32.Parse(code.Text), name.Text, Int32.Parse(masterCode.Text), time.Text, examTime.Text, Convert.ToInt32(val.Text)))
+            if(mng.AddCourse(Int32.Parse(code.Text), name.Text, Int32.Parse(masterCode.Text), time.Text, examTime.Text, Int32.Parse(val.Text)))
             {
                 //FileStream file = File.Create("Uni");
                 //BinaryFormatter bf = new BinaryFormatter();
                 //bf.Serialize(file, Universal.instance);
-                //file.Close();
+                //file.Close()
+
                 this.Hide();
             }
         }

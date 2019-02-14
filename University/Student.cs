@@ -185,10 +185,7 @@ namespace UniversityClasses
         {
             if (isAbleUnitChoice || Universal.instance.isAbleUnitChoice || isAbleUnitEdit || Universal.instance.isAbleUnitEdit)
             {
-                Course crs = new Course();
-                crs = (Course) FileManager.Load(Universal.instance.courseTree, crs, code, "crsFile");
-
-                if (choosenLessons != null)
+                 if (choosenLessons != null)
                 {
                     for (int i = 0; i < choosenLessons.Count; i++)
                     {
@@ -198,17 +195,33 @@ namespace UniversityClasses
                         }
                     }
                 }
+                Course crs = new Course();
+                crs = (Course) FileManager.Load(Universal.instance.courseTree, crs, code, "crsFile");
 
+               
 
-                if (crs.code == code)
+                for (int i = 0; i < crs.students.Count; i++)
                 {
-                    crs.students.Add(Manager.SearchStudent(id));
-                    choosenLessons = choosenLessons == null ? new List<StudentCourse>() : choosenLessons;
+                    if (crs.students[i] == null)
+                    {
+                        crs.students.Insert(i, Manager.SearchStudent(id));
+                        break;
+                    }
+                }
                     StudentCourse lsn = new StudentCourse(crs);
-                    choosenLessons.Add(lsn);
+                for (int i = 0; i < choosenLessons.Count; i++)
+                {
+                    if (choosenLessons[i] == null)
+                    {
+                        choosenLessons.Insert(i,lsn);
+                        break;
+                    }
+                }
+
+              
                     return true;
                 }
-            }
+            
             return false;
         }
         //End of Method

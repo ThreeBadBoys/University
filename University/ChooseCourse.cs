@@ -20,7 +20,7 @@ namespace University
 
         private void btn_ok_Click(object sender, EventArgs e)
         {
-            if (std.addLesson(Convert.ToInt32(textBox1.Text)))
+            if (std.addLesson(Int32.Parse(textBox1.Text)))
             {
                 //FileStream file = File.Create("Uni");
                 //BinaryFormatter bf = new BinaryFormatter();

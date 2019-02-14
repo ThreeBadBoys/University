@@ -13,10 +13,10 @@ namespace University
         {
             byte[] objectArray = ObjectToByteArray(objectToAdd);
             int tempindex;
-            if (whichTree.isEmpty() || whichTree.getLast() == 0)
+            if (whichTree.isEmpty())
                 tempindex = -1;
             else
-                tempindex = whichTree.get(whichTree.getLast());
+                tempindex = whichTree.getLast();
             // Get a handle to an existing memory mapped file
             using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(fileDirectoryPlusName, FileMode.Open, "mmf", (tempindex + 2) * objectArray.Length))
             {

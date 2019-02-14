@@ -61,7 +61,7 @@ namespace UniversityClasses
             }
         }
 
-        char[] ExamTime = new char[20];
+        char[] ExamTime = new char[50];
         public string examTime
         {
             get
