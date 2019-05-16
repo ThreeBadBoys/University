@@ -111,7 +111,7 @@ namespace UniversityClasses
             {
                 int lastMasterIndex = Universal.instance.masterTree.isEmpty() ? -1 : Universal.instance.masterTree.getLast();
                 bool Readable;
-                Master newMst = (Master)FileManager.Load(Universal.instance.masterTree, new Master(), out Readable, fileDirectoryPlusName: dir + "mstFile", index: lastMasterIndex);
+                Master newMst = (Master)FileManager.Load(Universal.instance.masterTree, new Master(),  out Readable, fileDirectoryPlusName: dir + "mstFile", index: lastMasterIndex);
 
                 if (lastMasterIndex != -1)
                 {
